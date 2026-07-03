@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>АсфальтТомск — Профессиональное асфальтирование в Томске</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    background: #f7f9fc;
+    color: #1a1a2e;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { text-decoration: none; color: inherit; }
+  button { cursor: pointer; font-family: inherit; }
+
+  /* Header */
+  .header {
+    background: #fff;
+    border-bottom: 1px solid #e8ecf1;
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 17px;
+    cursor: pointer;
+    color: #0f172a;
+  }
+  .logo-icon {
+    width: 30px;
+    height: 30px;
+    background: #4263eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+  }
+  .nav {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .nav-link {
+    padding: 7px 13px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+    background: transparent;
+    font-weight: 500;
+  }
+  .nav-link:hover { background: #f0f4ff; color: #4263eb; }
+  .nav-link.active { background: #eef2ff; color: #4263eb; font-weight: 600; }
+
+  .burger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #1a1a2e;
+    padding: 6px;
+  }
+
+  /* Pages */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* Hero */
+  .hero {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 80px 24px 60px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.18;
+    color: #0f172a;
+    margin-bottom: 22px;
+    letter-spacing: -0.3px;
+  }
+  .hero p {
+    font-size: 16px;
+    color: #64748b;
+    max-width: 620px;
+    margin: 0 auto 34px;
+    line-height: 1.65;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 11px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: #4263eb;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #3451d1; }
+  .btn-secondary {
+    background: #fff;
+    color: #1a1a2e;
+    border: 1px solid #e2e8f0;
+  }
+  .btn-secondary:hover { background: #f8fafc; }
+  .btn-warm {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+  }
+  .btn-warm:hover { background: #fde68a; }
+
+  /* Sections */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 24px;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 10px;
+  }
+  .section-subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 15px;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Cards grid */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #e0e7ff;
+    border-radius: 14px;
+    padding: 26px 20px;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .card:hover {
+    border-color: #4263eb;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(66, 99, 235, 0.08);
+  }
+  .card-icon {
+    width: 42px;
+    height: 42px;
+    background: #eef2ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+    font-size: 19px;
+    color: #4263eb;
+  }
+  .card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 7px;
+    color: #0f172a;
+  }
+  .card p {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.5;
+  }
+
+  /* Nav cards */
+  .nav-card {
+    background: #fff;
+    border: 1px solid #e0e7ff;
+    border-radius: 14px;
+    padding: 26px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-card:hover {
+    border-color: #4263eb;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(66, 99, 235, 0.08);
+  }
+  .nav-card .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #4263eb;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+
+  /* CTA block */
+  .cta-block {
+    background: #fff;
+    border: 1px solid #e0e7ff;
+    border-radius: 14px;
+    padding: 32px;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .cta-block h2 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .cta-block .subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  /* Form */
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #1a1a2e;
+  }
+  .form-group label .req { color: #ef4444; }
+  .form-group label .opt { color: #94a3b8; font-weight: 400; font-size: 13px; }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #fafbff;
+    transition: border-color 0.15s;
+    color: #1a1a2e;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #94a3b8;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #4263eb;
+    background: #fff;
+  }
+  .form-group textarea {
+    resize: vertical;
+    min-height: 88px;
+  }
+  .form-submit {
+    width: 100%;
+    padding: 12px;
+    background: #4263eb;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.15s;
+  }
+  .form-submit:hover { background: #3451d1; }
+  .form-submit:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
+  }
+
+  /* Portfolio */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .portfolio-card {
+    background: #fff;
+    border: 1px solid #e0e7ff;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .portfolio-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(66, 99, 235, 0.1);
+  }
+  .portfolio-card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    display: block;
+  }
+  .portfolio-card-body {
+    padding: 16px;
+  }
+  .portfolio-card-body h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .portfolio-card-body p {
+    font-size: 13px;
+    color: #64748b;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox-content {
+    max-width: 860px;
+    width: 100%;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .lightbox-content img {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+  }
+  .lightbox-body {
+    padding: 22px;
+  }
+  .lightbox-body h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .lightbox-body p {
+    color: #475569;
+    margin-bottom: 7px;
+    font-size: 14px;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 38px;
+    height: 38px;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Prices page */
+  .prices-page-header {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px 24px 30px;
+    text-align: center;
+  }
+  .prices-page-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 12px;
+  }
+  .prices-page-header p {
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .price-disclaimer {
+    background: #eef2ff;
+    border: 1px solid #e0e7ff;
+    color: #475569;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    max-width: 1100px;
+    margin: 0 auto 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.55;
+  }
+  .price-disclaimer .info-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    background: #4263eb;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .prices-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
+  .price-card {
+    background: #fff;
+    border: 1px solid #e0e7ff;
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: all 0.2s;
+  }
+  .price-card:hover {
+    border-color: #4263eb;
+    box-shadow: 0 8px 24px rgba(66, 99, 235, 0.08);
+  }
+  .price-card-icon {
+    width: 40px;
+    height: 40px;
+    background: #eef2ff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #4263eb;
+  }
+  .price-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .price-card .desc {
+    color: #64748b;
+    font-size: 13.5px;
+    line-height: 1.55;
+    flex-grow: 1;
+  }
+  .price-card .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .price-card .price {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+  .price-card .price-unit {
+    font-size: 13px;
+    color: #64748b;
+  }
+  .price-card .price-note {
+    font-size: 12px;
+    color: #94a3b8;
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    line-height: 1.45;
+  }
+  .price-card .price-note .mini-icon {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .price-card .btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 6px;
+    padding: 11px;
+    font-size: 14px;
+  }
+
+  /* Articles page */
+  .articles-page-header {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 50px 24px 30px;
+    text-align: center;
+  }
+  .articles-page-header .big-icon {
+    width: 52px;
+    height: 52px;
+    background: #eef2ff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    font-size: 24px;
+    color: #4263eb;
+  }
+  .articles-page-header h1 {
+    font-size: 30px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 10px;
+  }
+  .articles-page-header p {
+    color: #64748b;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+  .articles-list {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 10px 24px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .article-card {
+    background: #fff;
+    border: 1px solid #e0e7ff;
+    border-radius: 14px;
+    padding: 24px 26px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .article-card:hover {
+    border-color: #4263eb;
+    box-shadow: 0 6px 20px rgba(66, 99, 235, 0.08);
+  }
+  .article-card .date {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .article-card .date .cal-icon {
+    font-size: 13px;
+  }
+  .article-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #0f172a;
+    line-height: 1.35;
+  }
+  .article-card p {
+    color: #64748b;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
+  /* Article full */
+  .article-full {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+  }
+  .article-full .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #64748b;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 28px;
+  }
+  .article-full .back-link:hover { color: #4263eb; }
+  .article-full h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: #0f172a;
+    line-height: 1.3;
+  }
+  .article-full .meta {
+    color: #94a3b8;
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  .article-full .content {
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: #334155;
+  }
+  .article-full .content p { margin-bottom: 16px; }
+
+  /* Contacts */
+  .contacts-page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 50px 24px 80px;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #64748b;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 28px;
+  }
+  .back-link:hover { color: #4263eb; }
+  .contacts-page .big-icon {
+    width: 54px;
+    height: 54px;
+    background: #eef2ff;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    font-size: 24px;
+    color: #4263eb;
+  }
+  .contacts-page h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 28px;
+    color: #0f172a;
+  }
+  .contact-list {
+    background: #fff;
+    border: 1px solid #e0e7ff;
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin-bottom: 36px;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .contact-item:last-child { border-bottom: none; }
+  .contact-item-icon {
+    width: 36px;
+    height: 36px;
+    background: #eef2ff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #4263eb;
+    flex-shrink: 0;
+  }
+  .contact-item-label {
+    font-size: 13px;
+    color: #94a3b8;
+  }
+  .contact-item-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+  }
+  .callback-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .callback-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #0f172a;
+  }
+  .callback-header p {
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  /* Success message */
+  .success-msg {
+    display: none;
+    background: #dcfce7;
+    border: 1px solid #86efac;
+    color: #166534;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-top: 14px;
+    text-align: center;
+  }
+  .success-msg.active { display: block; }
+
+  /* Mobile nav */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 63px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 14px;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 99;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+  .mobile-nav.active { display: flex; }
+  .mobile-nav .nav-link {
+    text-align: left;
+    padding: 10px 14px;
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    .prices-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 34px; }
+  }
+  @media (max-width: 640px) {
+    .nav { display: none; }
+    .burger { display: block; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .prices-grid { grid-template-columns: 1fr; }
+    .hero { padding: 50px 20px 40px; }
+    .hero h1 { font-size: 28px; }
+    .section { padding: 40px 20px; }
+    .cta-block { padding: 24px 20px; }
+    .prices-page-header, .articles-page-header { padding: 40px 20px 24px; }
+    .prices-page-header h1, .articles-page-header h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo" onclick="showPage('home')">
+      <div class="logo-icon">🛣</div>
+      <span>АсфальтТомск</span>
+    </div>
+    <nav class="nav" id="desktopNav">
+      <button class="nav-link active" data-page="home">Главная</button>
+      <button class="nav-link" data-page="portfolio">Портфолио</button>
+      <button class="nav-link" data-page="prices">Цены</button>
+      <button class="nav-link" data-page="articles">Статьи</button>
+      <button class="nav-link" data-page="contacts">Контакты</button>
+    </nav>
+    <button class="burger" onclick="toggleMobileNav()">☰</button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <button class="nav-link" data-page="home" onclick="showPage('home');toggleMobileNav()">Главная</button>
+    <button class="nav-link" data-page="portfolio" onclick="showPage('portfolio');toggleMobileNav()">Портфолио</button>
+    <button class="nav-link" data-page="prices" onclick="showPage('prices');toggleMobileNav()">Цены</button>
+    <button class="nav-link" data-page="articles" onclick="showPage('articles');toggleMobileNav()">Статьи</button>
+    <button class="nav-link" data-page="contacts" onclick="showPage('contacts');toggleMobileNav()">Контакты</button>
+  </div>
+</header>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <h1>Профессиональное асфальтирование в Томске и области</h1>
+    <p>Более 10 лет качественно укладываем асфальт на дворах, подъездных путях, парковках и пешеходных дорожках. Работаем с частными и коммерческими заказами.</p>
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="showPage('portfolio')">
+        Наши работы
+      </button>
+      <button class="btn btn-secondary" onclick="showPage('contacts')">
+        Связаться с нами
+      </button>
+      <button class="btn btn-warm" onclick="scrollToForm()">
+        📞 Перезвоните мне
+      </button>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Почему выбирают нас</h2>
+    <p class="section-subtitle">Работаем честно и открыто. Каждый объект — под контролем.</p>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🛡</div>
+        <h3>Работаем официально</h3>
+        <p>Договор, гарантия, все документы. Работаем с НДС и без.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📏</div>
+        <h3>Бесплатный замер</h3>
+        <p>Выезжаем на объект, делаем замер и рассчитываем точную смету бесплатно.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚜</div>
+        <h3>Своя техника</h3>
+        <p>Работаем на собственном оборудовании — это даёт лучшую цену и сроки.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">✓</div>
+        <h3>Гарантия на работы</h3>
+        <p>Даём гарантию до 3 лет на все виды асфальтирования.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:#f0f4ff;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <h2 class="section-title">Чем мы занимаемся</h2>
+      <p class="section-subtitle">Выберите интересующий вас раздел</p>
+      <div class="cards-grid">
+        <div class="nav-card" onclick="showPage('portfolio')">
+          <div class="card-icon">🖼</div>
+          <h3>Портфолио</h3>
+          <p>Фото наших работ: дворы, парковки, дорожки</p>
+          <div class="card-link">Перейти →</div>
+        </div>
+        <div class="nav-card" onclick="showPage('prices')">
+          <div class="card-icon">💰</div>
+          <h3>Цены</h3>
+          <p>Примерные цены на основные виды работ</p>
+          <div class="card-link">Перейти →</div>
+        </div>
+        <div class="nav-card" onclick="showPage('articles')">
+          <div class="card-icon">📄</div>
+          <h3>Статьи</h3>
+          <p>Полезная информация об асфальтировании</p>
+          <div class="card-link">Перейти →</div>
+        </div>
+        <div class="nav-card" onclick="showPage('contacts')">
+          <div class="card-icon">📞</div>
+          <h3>Контакты</h3>
+          <p>Как с нами связаться</p>
+          <div class="card-link">Перейти →</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="measurementForm">
+    <h2 class="section-title">Нужен бесплатный замер?</h2>
+    <p class="section-subtitle">Приедем на объект, всё замерим и рассчитаем точную стоимость.<br>Никаких скрытых платежей и навязанных услуг.</p>
+    <div class="cta-block">
+      <form id="measurementFormEl" onsubmit="submitMeasurement(event)">
+        <input type="hidden" name="access_key" value="108eb966-8b76-489e-9365-1727e745cc5c">
+        <input type="hidden" name="subject" value="🔨 Новая заявка на замер — АсфальтТомск">
+        <input type="hidden" name="from_name" value="АсфальтТомск Сайт">
+        
+        <div class="form-group">
+          <label>Имя</label>
+          <input type="text" name="name" placeholder="Ваше имя" required>
+        </div>
+        <div class="form-group">
+          <label>Телефон <span class="req">*</span></label>
+          <input type="tel" name="phone" id="phone1" placeholder="+7 (999) 123-45-67" required>
+        </div>
+        <div class="form-group">
+          <label>Адрес объекта</label>
+          <input type="text" name="address" placeholder="г. Томск, ул. Примерная, д. 1">
+        </div>
+        <div class="form-group">
+          <label>Комментарий <span class="opt">(необязательно)</span></label>
+          <textarea name="message" placeholder="Опишите объём работ или задайте вопрос"></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="measurementBtn">Отправить заявку</button>
+        <div class="success-msg" id="measurementSuccess">✓ Заявка отправлена! Мы перезвоним вам в ближайшее время.</div>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- PORTFOLIO PAGE -->
+<div class="page" id="page-portfolio">
+  <section class="section">
+    <h2 class="section-title">Портфолио работ</h2>
+    <p class="section-subtitle">Примеры выполненных объектов</p>
+    <div class="portfolio-grid" id="portfolioGrid"></div>
+  </section>
+</div>
+
+<!-- PRICES PAGE -->
+<div class="page" id="page-prices">
+  <div class="prices-page-header">
+    <h1>Цены и услуги</h1>
+    <p>Примерные цены на основные виды асфальтирования. Точная стоимость рассчитывается после бесплатного выезда специалиста на замер.</p>
+  </div>
+  <div class="price-disclaimer" style="max-width:1100px; margin-left:auto; margin-right:auto;">
+    <div class="info-icon">i</div>
+    <div>Цены указаны как примерные. Итоговая стоимость зависит от площади, состояния основания, необходимости демонтажных работ и других факторов. Для точного расчёта пригласите нашего специалиста на бесплатный замер.</div>
+  </div>
+  <div class="prices-grid" id="pricesGrid"></div>
+</div>
+
+<!-- ARTICLES PAGE -->
+<div class="page" id="page-articles">
+  <div class="articles-page-header">
+    <div class="big-icon">📄</div>
+    <h1>Полезные статьи</h1>
+    <p>Полезная информация об асфальтировании: выбор материала, этапы работ, уход за покрытием и советы профессионалов</p>
+  </div>
+  <div class="articles-list" id="articlesList"></div>
+</div>
+
+<!-- ARTICLE FULL PAGE -->
+<div class="page" id="page-article-full">
+  <div class="article-full" id="articleFullContent"></div>
+</div>
+
+<!-- CONTACTS PAGE -->
+<div class="page" id="page-contacts">
+  <div class="contacts-page">
+    <div class="back-link" onclick="showPage('home')">← На главную</div>
+    <div class="big-icon">📞</div>
+    <h1>Контакты</h1>
+    <div class="contact-list">
+      <div class="contact-item">
+        <div class="contact-item-icon">📞</div>
+        <div>
+          <div class="contact-item-label">Телефон</div>
+          <div class="contact-item-value">+7 (913) 821-06-58</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">✉</div>
+        <div>
+          <div class="contact-item-label">Email</div>
+          <div class="contact-item-value">asfalt.tomsk@gmail.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">✈</div>
+        <div>
+          <div class="contact-item-label">Telegram</div>
+          <div class="contact-item-value">@T5bank</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callback-header">
+      <h2>Заказать обратный звонок</h2>
+      <p>Оставьте имя и телефон — мы перезвоним вам в ближайшее время</p>
+    </div>
+    <div class="cta-block" style="max-width:100%;">
+      <form id="callbackFormEl" onsubmit="submitCallback(event)">
+        <input type="hidden" name="access_key" value="108eb966-8b76-489e-9365-1727e745cc5c">
+        <input type="hidden" name="subject" value="📞 Обратный звонок — АсфальтТомск">
+        <input type="hidden" name="from_name" value="АсфальтТомск Сайт">
+        
+        <div class="form-group">
+          <label>Имя</label>
+          <input type="text" name="name" placeholder="Ваше имя" required>
+        </div>
+        <div class="form-group">
+          <label>Телефон <span class="req">*</span></label>
+          <input type="tel" name="phone" id="phone2" placeholder="+7 (999) 123-45-67" required>
+        </div>
+        <button type="submit" class="form-submit" id="callbackBtn">Перезвоните мне</button>
+        <div class="success-msg" id="callbackSuccess">✓ Заявка отправлена! Мы перезвоним вам в ближайшее время.</div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <div class="lightbox-content" id="lightboxContent"></div>
+</div>
+
+<script>
+// Data
+const portfolioItems = [
+  {
+    id: 1,
+    title: 'Асфальтирование двора',
+    type: 'Двор частного дома',
+    area: '180 м²',
+    volume: 'Укладка асфальта в 2 слоя',
+    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/16d2ddbc1-07a5-4fd1-a332-2f05f943e120.png',
+    desc: 'Полное асфальтирование дворовой территории частного дома. Снятие старого покрытия, подготовка основания, укладка асфальта в два слоя с уплотнением катком.'
+  },
+  {
+    id: 2,
+    title: 'Подъездная дорога',
+    type: 'Подъезд к дому',
+    area: '95 м²',
+    volume: 'Асфальтирование + бордюры',
+    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/1178107d2-ba91-4831-9e71-0ff548cea1be.png',
+    desc: 'Устройство подъездной дороги к частному дому. Включает подготовку основания из щебня, укладку асфальта и установку бордюров.'
+  },
+  {
+    id: 3,
+    title: 'Парковка',
+    type: 'Автомобильная парковка',
+    area: '320 м²',
+    volume: 'Асфальтирование + разметка',
+    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/1d38a153d-e859-4da9-9cd6-381a42c0712f.png',
+    desc: 'Асфальтирование парковки на 15 машиномест с нанесением разметки. Работы выполнены за 2 дня.'
+  },
+  {
+    id: 4,
+    title: 'Садовая дорожка',
+    type: 'Пешеходная дорожка',
+    area: '45 м²',
+    volume: 'Укладка асфальта',
+    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/101cb136d-c110-4ee8-bd2b-c568327cc09b.png',
+    desc: 'Устройство пешеходной дорожки в саду. Тонкий слой асфальта на подготовленное основание.'
+  },
+  {
+    id: 5,
+    title: 'Промышленная площадка',
+    type: 'Промплощадка',
+    area: '850 м²',
+    volume: 'Асфальтирование в 2 слоя',
+    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/1cd50086b-dad9-40e6-be19-30d77df21e1e.png',
+    desc: 'Асфальтирование промышленной площадки для стоянки тяжёлой техники. Усиленное основание, два слоя асфальта.'
+  },
+  {
+    id: 6,
+    title: 'Тротуар вдоль улицы',
+    type: 'Городской тротуар',
+    area: '240 м²',
+    volume: 'Асфальтирование тротуара',
+    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/1e3a59c11-d9a5-497c-8715-f043aab9fa25.png',
+    desc: 'Асфальтирование тротуара вдоль городской улицы. Работы проведены в сжатые сроки с соблюдением всех норм.'
+  }
+];
+
+const priceItems = [
+  {
+    icon: '🏠',
+    title: 'Асфальтирование двора',
+    price: 'от 1 200 ₽',
+    unit: 'за м²',
+    desc: 'Полный цикл работ по асфальтированию придомовой территории: демонтаж старого покрытия, выравнивание, укладка асфальта, установка бордюров.',
+    note: 'Цена зависит от состояния основания и объёма работ',
+  },
+  {
+    icon: '🛤',
+    title: 'Подъездная дорога',
+    price: 'от 1 100 ₽',
+    unit: 'за м²',
+    desc: 'Устройство подъездных путей к частному дому или участку: подготовка основания, укладка асфальта, укрепление обочины.',
+    note: 'Минимальная площадь — 50 м²',
+  },
+  {
+    icon: '🚗',
+    title: 'Парковка',
+    price: 'от 1 300 ₽',
+    unit: 'за м²',
+    desc: 'Асфальтирование парковочных мест для легкового и грузового транспорта с учётом нагрузки. Возможна нанесение разметки.',
+    note: 'Усиленное основание рассчитывается отдельно',
+  },
+  {
+    icon: '🌿',
+    title: 'Садовые и пешеходные дорожки',
+    price: 'от 900 ₽',
+    unit: 'за м²',
+    desc: 'Асфальтирование пешеходных зон, дорожек в скверах и на участках. Аккуратное примыкание к газонам и бордюрам.',
+    note: 'При заказе от 100 м² — скидка',
+  },
+  {
+    icon: '🏭',
+    title: 'Промышленные площадки',
+    price: 'от 1 500 ₽',
+    unit: 'за м²',
+    desc: 'Асфальтирование территорий предприятий, складских комплексов и производственных зон с усиленным основанием.',
+    note: 'Точная цена после выезда специалиста',
+  },
+  {
+    icon: '🚶',
+    title: 'Тротуары',
+    price: 'от 1 000 ₽',
+    unit: 'за м²',
+    desc: 'Укладка асфальта на тротуарах вдоль улиц с установкой бордюрного камня и организацией водоотвода.',
+    note: 'Выезды для авто рассчитываются дополнительно',
+  }
+];
+
+const articles = [
+  {
+    slug: 'kak-vybrat-asfalt',
+    date: '15 марта 2025 г.',
+    title: 'Как выбрать асфальт для двора частного дома',
+    short: 'Разбираемся в типах асфальтового покрытия, толщине слоя и особенностях укладки, чтобы двор радовал долгие годы.',
+    content: `<p>Выбор асфальта для частного дома — задача, которая требует понимания нескольких ключевых моментов. На рынке представлено несколько видов асфальтобетонных смесей, и каждая из них подходит для определённых условий эксплуатации.</p>
+<p><strong>Крупнозернистый асфальт</strong> используется для нижнего слоя покрытия. Он обеспечивает прочность и устойчивость к нагрузкам. Для частного двора обычно достаточно одного слоя крупнозернистого и одного слоя мелкозернистого асфальта.</p>
+<p><strong>Мелкозернистый асфальт</strong> — это верхний слой, который обеспечивает ровность и гладкость поверхности. Именно его видят хозяева и гости дома.</p>
+<p>Для двора частного дома оптимальная толщина покрытия — 8-10 см (два слоя по 4-5 см). Если по покрытию будет ездить тяжёлая техника, толщину увеличивают до 12-15 см.</p>
+<p>При выборе подрядчика обращайте внимание на наличие собственной техники и опыт работы. Это гарантирует качество и соблюдение сроков.</p>`
+  },
+  {
+    slug: 'etapy-rabot',
+    date: '28 февраля 2025 г.',
+    title: 'Этапы асфальтирования: от замера до приёмки',
+    short: 'Пошаговая инструкция: как происходит асфальтирование участка, какие этапы проходит заказчик и на что обратить внимание.',
+    content: `<p>Асфальтирование — это технологический процесс, который состоит из нескольких обязательных этапов. Нарушение любого из них приводит к снижению срока службы покрытия.</p>
+<p><strong>1. Замер и смета.</strong> Специалист выезжает на объект, оценивает состояние грунта, размеры площадки и составляет точную смету. Этот этап бесплатный.</p>
+<p><strong>2. Снятие старого покрытия.</strong> Если на участке уже был асфальт или другое покрытие, его необходимо удалить. Это делается с помощью специальной техники — холодных фрез или вручную.</p>
+<p><strong>3. Подготовка основания.</strong> На грунт насыпается слой щебня (обычно 15-20 см), который тщательно утрамбовывается. От качества основания зависит долговечность всего покрытия.</p>
+<p><strong>4. Укладка асфальта.</strong> Асфальтобетонная смесь укладывается слоями. Каждый слой уплотняется катком. Температура смеси при укладке должна быть не ниже 120°C.</p>
+<p><strong>5. Финальное уплотнение и сдача.</strong> После укладки всех слоёв проводится финальное уплотнение. Покрытие готово к эксплуатации через 24-48 часов. Заказчик принимает работу и подписывает акт.</p>`
+  },
+  {
+    slug: 'sroki-sluzhby',
+    date: '10 февраля 2025 г.',
+    title: 'Сколько служит асфальт и от чего зависит срок службы',
+    short: 'Реальные цифры: сколько лет прослужит асфальтовое покрытие, как продлить его срок службы и когда нужен ремонт.',
+    content: `<p>Срок службы асфальтового покрытия зависит от множества факторов: качества материалов, толщины слоёв, интенсивности эксплуатации и климатических условий.</p>
+<p>При правильном устройстве и умеренной нагрузке (легковые автомобили) асфальт во дворе частного дома служит <strong>10-15 лет</strong> без капитального ремонта.</p>
+<p>Основные факторы, влияющие на долговечность:</p>
+<p>• <strong>Качество основания</strong> — плохо утрамбованный щебень приводит к просадкам и трещинам.<br>
+• <strong>Толщина покрытия</strong> — чем больше нагрузка, тем толще должен быть слой.<br>
+• <strong>Водоотвод</strong> — застой воды разрушает покрытие.<br>
+• <strong>Климат</strong> — перепады температур и морозы ускоряют износ.</p>
+<p>Регулярный уход (заделка трещин, ямочный ремонт) продлевает срок службы покрытия на 3-5 лет. Рекомендуется осматривать покрытие весной после схода снега и осенью перед заморозками.</p>`
+  },
+  {
+    slug: 'asfalt-ili-plitka',
+    date: '25 января 2025 г.',
+    title: 'Асфальт или тротуарная плитка: что лучше для двора',
+    short: 'Сравниваем два популярных покрытия по цене, долговечности, внешнему виду и удобству эксплуатации.',
+    content: `<p>Частый вопрос при благоустройстве двора: что выбрать — асфальт или тротуарную плитку? У каждого варианта есть свои преимущества и недостатки.</p>
+<p><strong>Асфальт</strong> — дешевле (в 1.5-2 раза), укладывается быстрее, создаёт ровное монолитное покрытие. Идеален для проездов и парковок. Минус — менее эстетичный вид.</p>
+<p><strong>Тротуарная плитка</strong> — красивее, позволяет создавать узоры, легко ремонтируется (можно заменить отдельные плитки). Минус — дороже, дольше укладывается, со временем может проседать.</p>
+<p>Оптимальное решение: асфальт для проезжей части двора и парковки, плитка — для пешеходных зон и отмостки вокруг дома. Такой комбинированный подход даёт и практичность, и красоту.</p>`
+  },
+  {
+    slug: 'cenooobrazovanie',
+    date: '12 января 2025 г.',
+    title: 'Из чего складывается цена асфальтирования',
+    short: 'Разбираем структуру стоимости работ и объясняем, почему цены у разных подрядчиков отличаются.',
+    content: `<p>Цена асфальтирования формируется из нескольких составляющих. Понимание этой структуры поможет вам оценить предложение подрядчика и избежать переплат.</p>
+<p><strong>Материалы</strong> — асфальтобетонная смесь, щебень, бордюры. Составляют 40-50% стоимости.<br>
+<strong>Работа</strong> — оплата труда рабочих и операторов техники. 25-30%.<br>
+<strong>Техника</strong> — аренда или амортизация собственной техники. 15-20%.<br>
+<strong>Накладные расходы</strong> — логистика, управление, налоги. 10-15%.</p>
+<p>Почему цены отличаются? Подрядчики с собственной техникой обычно дешевле тех, кто арендует. Также влияет объём работ — на больших объектах цена за м² ниже. Всегда запрашивайте детальную смету и сравнивайте предложения.</p>`
+  },
+  {
+    slug: 'podgotovka-k-zameru',
+    date: '5 января 2025 г.',
+    title: 'Как подготовиться к приезду замерщика',
+    short: 'Простые советы, которые помогут сэкономить время и получить точный расчёт стоимости работ.',
+    content: `<p>Чтобы выезд замерщика прошёл максимально эффективно, подготовьтесь заранее:</p>
+<p>• <strong>Определите границы</strong> — отметьте колышками или мелом границы будущего покрытия.<br>
+• <strong>Освободите территорию</strong> — уберите автомобили, мусор, строительные материалы.<br>
+• <strong>Подготовьте документы</strong> — если есть план участка, это ускорит работу.<br>
+• <strong>Сформулируйте пожелания</strong> — толщина покрытия, необходимость бордюров, водоотвода.</p>
+<p>Замер обычно занимает 30-60 минут. После него в течение 1-2 дней вы получаете смету с точной стоимостью работ. Если всё устраивает — согласовываем дату начала работ.</p>`
+  }
+];
+
+// Render portfolio
+function renderPortfolio() {
+  const grid = document.getElementById('portfolioGrid');
+  grid.innerHTML = portfolioItems.map(item => `
+    <div class="portfolio-card" onclick="openLightbox(${item.id})">
+      <img src="${item.img}" alt="${item.title}" loading="lazy">
+      <div class="portfolio-card-body">
+        <h3>${item.title}</h3>
+        <p>${item.type} · ${item.area}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Render prices
+function renderPrices() {
+  const grid = document.getElementById('pricesGrid');
+  grid.innerHTML = priceItems.map(item => `
+    <div class="price-card">
+      <div class="price-card-icon">${item.icon}</div>
+      <h3>${item.title}</h3>
+      <p class="desc">${item.desc}</p>
+      <div class="price-row">
+        <span class="price">${item.price}</span>
+        <span class="price-unit">${item.unit}</span>
+      </div>
+      <div class="price-note">
+        <span class="mini-icon">i</span>
+        <span>${item.note}</span>
+      </div>
+      <button class="btn btn-primary" onclick="showPage('contacts')">Заказать замер</button>
+    </div>
+  `).join('');
+}
+
+// Render articles
+function renderArticles() {
+  const list = document.getElementById('articlesList');
+  list.innerHTML = articles.map(a => `
+    <div class="article-card" onclick="openArticle('${a.slug}')">
+      <div class="date"><span class="cal-icon">📅</span> ${a.date}</div>
+      <h3>${a.title}</h3>
+      <p>${a.short}</p>
+    </div>
+  `).join('');
+}
+
+// Open article
+function openArticle(slug) {
+  const article = articles.find(a => a.slug === slug);
+  if (!article) return;
+  document.getElementById('articleFullContent').innerHTML = `
+    <div class="back-link" onclick="showPage('articles')">← На главную</div>
+    <h1>${article.title}</h1>
+    <div class="meta">📅 ${article.date}</div>
+    <div class="content">${article.content}</div>
+  `;
+  showPage('article-full');
+}
+
+// Lightbox
+function openLightbox(id) {
+  const item = portfolioItems.find(p => p.id === id);
+  if (!item) return;
+  document.getElementById('lightboxContent').innerHTML = `
+    <img src="${item.img}" alt="${item.title}">
+    <div class="lightbox-body">
+      <h2>${item.title}</h2>
+      <p><strong>Тип объекта:</strong> ${item.type}</p>
+      <p><strong>Площадь:</strong> ${item.area}</p>
+      <p><strong>Объём работ:</strong> ${item.volume}</p>
+      <p style="margin-top:12px;">${item.desc}</p>
+    </div>
+  `;
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(e) {
+  if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Phone mask
+function formatPhone(value) {
+  const digits = value.replace(/\D/g, '').substring(0, 11);
+  if (!digits) return '';
+  let result = '+7';
+  if (digits.length > 1) result += ' (' + digits.substring(1, 4);
+  if (digits.length >= 4) result += ') ' + digits.substring(4, 7);
+  if (digits.length >= 7) result += '-' + digits.substring(7, 9);
+  if (digits.length >= 9) result += '-' + digits.substring(9, 11);
+  return result;
+}
+
+function setupPhoneMask(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  input.addEventListener('input', function(e) {
+    const raw = e.target.value.replace(/\D/g, '');
+    const normalized = raw.startsWith('8') ? '7' + raw.substring(1) : (raw.startsWith('7') ? raw : '7' + raw);
+    e.target.value = formatPhone(normalized);
+  });
+  input.addEventListener('focus', function(e) {
+    if (!e.target.value) e.target.value = '+7 (';
+  });
+  input.addEventListener('blur', function(e) {
+    if (e.target.value === '+7 (' || e.target.value === '+7') e.target.value = '';
+  });
+}
+
+// Navigation
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + pageId);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => {
+    l.classList.toggle('active', l.dataset.page === pageId);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('active');
+}
+
+function scrollToForm() {
+  showPage('home');
+  setTimeout(() => {
+    document.getElementById('measurementForm').scrollIntoView({ behavior: 'smooth' });
+  }, 100);
+}
+
+// Web3Forms submission
+async function submitWeb3Form(formId, successId, btnId) {
+  const form = document.getElementById(formId);
+  const successMsg = document.getElementById(successId);
+  const btn = document.getElementById(btnId);
+  
+  const formData = new FormData(form);
+  
+  try {
+    btn.disabled = true;
+    btn.textContent = 'Отправка...';
+    
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      successMsg.classList.add('active');
+      form.reset();
+      setTimeout(() => {
+        successMsg.classList.remove('active');
+      }, 6000);
+    } else {
+      alert('Ошибка: ' + (result.message || 'Попробуйте ещё раз'));
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Ошибка отправки. Проверьте интернет-соединение.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = btnId === 'measurementBtn' ? 'Отправить заявку' : 'Перезвоните мне';
+  }
+}
+
+function submitMeasurement(e) {
+  e.preventDefault();
+  submitWeb3Form('measurementFormEl', 'measurementSuccess', 'measurementBtn');
+}
+
+function submitCallback(e) {
+  e.preventDefault();
+  submitWeb3Form('callbackFormEl', 'callbackSuccess', 'callbackBtn');
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  renderPortfolio();
+  renderPrices();
+  renderArticles();
+  setupPhoneMask('phone1');
+  setupPhoneMask('phone2');
+
+  document.querySelectorAll('#desktopNav .nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const page = link.dataset.page;
+      if (page) showPage(page);
+    });
+  });
+});
+</script>
+
+</body>
+</html>
