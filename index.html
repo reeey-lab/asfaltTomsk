@@ -318,41 +318,68 @@
     cursor: not-allowed;
   }
 
-  /* Portfolio */
-  .portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+  /* Portfolio empty state */
+  .portfolio-empty {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    text-align: center;
   }
-  .portfolio-card {
-    background: #fff;
-    border: 1px solid #e0e7ff;
-    border-radius: 14px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.2s;
+  .portfolio-empty-icon {
+    width: 88px;
+    height: 88px;
+    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 42px;
+    position: relative;
   }
-  .portfolio-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(66, 99, 235, 0.1);
+  .portfolio-empty-icon::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 24px;
+    height: 24px;
+    background: #fbbf24;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
   }
-  .portfolio-card img {
-    width: 100%;
-    height: 190px;
-    object-fit: cover;
-    display: block;
+  .portfolio-empty h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 12px;
   }
-  .portfolio-card-body {
-    padding: 16px;
-  }
-  .portfolio-card-body h3 {
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 5px;
-  }
-  .portfolio-card-body p {
-    font-size: 13px;
+  .portfolio-empty p {
     color: #64748b;
+    font-size: 15px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+  .portfolio-empty .empty-note {
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin: 24px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+  }
+  .portfolio-empty .empty-note .note-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  .portfolio-empty .btn {
+    margin-top: 8px;
   }
 
   /* Lightbox */
@@ -804,7 +831,6 @@
   /* Responsive */
   @media (max-width: 960px) {
     .cards-grid { grid-template-columns: repeat(2, 1fr); }
-    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
     .prices-grid { grid-template-columns: repeat(2, 1fr); }
     .hero h1 { font-size: 32px; }
     .section-title { font-size: 26px; }
@@ -813,7 +839,6 @@
     .nav { display: none; }
     .burger { display: block; }
     .cards-grid { grid-template-columns: 1fr; }
-    .portfolio-grid { grid-template-columns: 1fr; }
     .prices-grid { grid-template-columns: 1fr; }
     .hero { padding: 40px 16px 36px; }
     .hero h1 { font-size: 28px; }
@@ -830,6 +855,8 @@
       padding: 14px 16px;
     }
     .price-final-note .note-icon { margin: 0 auto; }
+    .portfolio-empty-icon { width: 72px; height: 72px; font-size: 34px; }
+    .portfolio-empty h2 { font-size: 20px; }
   }
 </style>
 </head>
@@ -974,8 +1001,17 @@
 <div class="page" id="page-portfolio">
   <section class="section">
     <h2 class="section-title">Портфолио работ</h2>
-    <p class="section-subtitle">Примеры выполненных объектов</p>
-    <div class="portfolio-grid" id="portfolioGrid"></div>
+    <p class="section-subtitle">Раздел с примерами наших выполненных объектов</p>
+    <div class="portfolio-empty">
+      <div class="portfolio-empty-icon">📷</div>
+      <h2>Портфолио в процессе наполнения</h2>
+      <p>Сейчас мы активно собираем фотографии с наших объектов. Скоро здесь появятся реальные примеры выполненных работ: дворы, подъездные дороги, парковки и пешеходные дорожки.</p>
+      <div class="empty-note">
+        <span class="note-icon">💡</span>
+        <span>Хотите посмотреть примеры работ прямо сейчас? Свяжитесь с нами — покажем фото и расскажем о последних объектах.</span>
+      </div>
+      <button class="btn btn-primary" onclick="showPage('contacts')">Связаться с нами</button>
+    </div>
   </section>
 </div>
 
@@ -1073,64 +1109,6 @@
 </div>
 
 <script>
-// Data
-const portfolioItems = [
-  {
-    id: 1,
-    title: 'Асфальтирование двора',
-    type: 'Двор частного дома',
-    area: '180 м²',
-    volume: 'Укладка асфальта в 2 слоя',
-    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/16d2ddbc1-07a5-4fd1-a332-2f05f943e120.png',
-    desc: 'Полное асфальтирование дворовой территории частного дома. Снятие старого покрытия, подготовка основания, укладка асфальта в два слоя с уплотнением катком.'
-  },
-  {
-    id: 2,
-    title: 'Подъездная дорога',
-    type: 'Подъезд к дому',
-    area: '95 м²',
-    volume: 'Асфальтирование + бордюры',
-    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/1178107d2-ba91-4831-9e71-0ff548cea1be.png',
-    desc: 'Устройство подъездной дороги к частному дому. Включает подготовку основания из щебня, укладку асфальта и установку бордюров.'
-  },
-  {
-    id: 3,
-    title: 'Парковка',
-    type: 'Автомобильная парковка',
-    area: '320 м²',
-    volume: 'Асфальтирование + разметка',
-    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/1d38a153d-e859-4da9-9cd6-381a42c0712f.png',
-    desc: 'Асфальтирование парковки на 15 машиномест с нанесением разметки. Работы выполнены за 2 дня.'
-  },
-  {
-    id: 4,
-    title: 'Садовая дорожка',
-    type: 'Пешеходная дорожка',
-    area: '45 м²',
-    volume: 'Укладка асфальта',
-    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/101cb136d-c110-4ee8-bd2b-c568327cc09b.png',
-    desc: 'Устройство пешеходной дорожки в саду. Тонкий слой асфальта на подготовленное основание.'
-  },
-  {
-    id: 5,
-    title: 'Промышленная площадка',
-    type: 'Промплощадка',
-    area: '850 м²',
-    volume: 'Асфальтирование в 2 слоя',
-    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/1cd50086b-dad9-40e6-be19-30d77df21e1e.png',
-    desc: 'Асфальтирование промышленной площадки для стоянки тяжёлой техники. Усиленное основание, два слоя асфальта.'
-  },
-  {
-    id: 6,
-    title: 'Тротуар вдоль улицы',
-    type: 'Городской тротуар',
-    area: '240 м²',
-    volume: 'Асфальтирование тротуара',
-    img: 'https://image.qwenlm.ai/public_source/1d7a5684-6958-41b2-826d-6db2e04f2344/1e3a59c11-d9a5-497c-8715-f043aab9fa25.png',
-    desc: 'Асфальтирование тротуара вдоль городской улицы. Работы проведены в сжатые сроки с соблюдением всех норм.'
-  }
-];
-
 const priceItems = [
   {
     icon: '🏠',
@@ -1264,20 +1242,6 @@ const articles = [
   }
 ];
 
-// Render portfolio
-function renderPortfolio() {
-  const grid = document.getElementById('portfolioGrid');
-  grid.innerHTML = portfolioItems.map(item => `
-    <div class="portfolio-card" onclick="openLightbox(${item.id})">
-      <img src="${item.img}" alt="${item.title}" loading="lazy">
-      <div class="portfolio-card-body">
-        <h3>${item.title}</h3>
-        <p>${item.type} · ${item.area}</p>
-      </div>
-    </div>
-  `).join('');
-}
-
 // Render prices
 function renderPrices() {
   const grid = document.getElementById('pricesGrid');
@@ -1325,23 +1289,6 @@ function openArticle(slug) {
 }
 
 // Lightbox
-function openLightbox(id) {
-  const item = portfolioItems.find(p => p.id === id);
-  if (!item) return;
-  document.getElementById('lightboxContent').innerHTML = `
-    <img src="${item.img}" alt="${item.title}">
-    <div class="lightbox-body">
-      <h2>${item.title}</h2>
-      <p><strong>Тип объекта:</strong> ${item.type}</p>
-      <p><strong>Площадь:</strong> ${item.area}</p>
-      <p><strong>Объём работ:</strong> ${item.volume}</p>
-      <p style="margin-top:12px;">${item.desc}</p>
-    </div>
-  `;
-  document.getElementById('lightbox').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
 function closeLightbox(e) {
   if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
   document.getElementById('lightbox').classList.remove('active');
@@ -1447,7 +1394,6 @@ function submitCallback(e) {
 
 // Init
 document.addEventListener('DOMContentLoaded', () => {
-  renderPortfolio();
   renderPrices();
   renderArticles();
   setupPhoneMask('phone1');
