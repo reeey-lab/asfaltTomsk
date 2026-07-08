@@ -9,6 +9,7 @@
   html {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
+    scroll-behavior: smooth;
   }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -21,15 +22,182 @@
   a { text-decoration: none; color: inherit; }
   button { cursor: pointer; font-family: inherit; }
 
-  /* Header */
+  /* === SCROLL PROGRESS BAR === */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #4263eb, #7c3aed, #4263eb);
+    background-size: 200% 100%;
+    z-index: 1000;
+    width: 0%;
+    transition: width 0.1s linear;
+    animation: shimmer 2s linear infinite;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* === SCROLL TO TOP === */
+  .scroll-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 48px;
+    height: 48px;
+    background: #4263eb;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 99;
+    box-shadow: 0 6px 20px rgba(66, 99, 235, 0.4);
+  }
+  .scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+  .scroll-top:hover {
+    background: #3451d1;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 28px rgba(66, 99, 235, 0.5);
+  }
+  .scroll-top:active { transform: scale(0.95); }
+
+  /* === ANIMATED BACKGROUND SHAPES === */
+  .hero-bg-shapes {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.08;
+    background: #4263eb;
+  }
+  .shape-1 {
+    width: 300px; height: 300px;
+    top: -80px; right: -60px;
+    animation: float1 8s ease-in-out infinite;
+  }
+  .shape-2 {
+    width: 200px; height: 200px;
+    bottom: -40px; left: -40px;
+    background: #7c3aed;
+    animation: float2 10s ease-in-out infinite;
+  }
+  .shape-3 {
+    width: 150px; height: 150px;
+    top: 40%; left: 10%;
+    background: #06b6d4;
+    animation: float3 12s ease-in-out infinite;
+  }
+  .shape-4 {
+    width: 100px; height: 100px;
+    top: 20%; right: 15%;
+    background: #f59e0b;
+    animation: float1 9s ease-in-out infinite reverse;
+  }
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(20px, -30px) scale(1.1); }
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-20px, 20px) rotate(180deg); }
+  }
+  @keyframes float3 {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(30px, -20px); }
+    66% { transform: translate(-20px, 30px); }
+  }
+
+  /* === REVEAL ANIMATIONS === */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Stagger delays */
+  .stagger-1 { transition-delay: 0.1s; }
+  .stagger-2 { transition-delay: 0.2s; }
+  .stagger-3 { transition-delay: 0.3s; }
+  .stagger-4 { transition-delay: 0.4s; }
+  .stagger-5 { transition-delay: 0.5s; }
+  .stagger-6 { transition-delay: 0.6s; }
+  .stagger-7 { transition-delay: 0.7s; }
+
+  /* === PAGE TRANSITIONS === */
+  .page {
+    display: none;
+    animation: pageIn 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .page.active { display: block; }
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === HEADER === */
   .header {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid #e8ecf1;
     padding: 14px 0;
     position: sticky;
     top: 0;
     z-index: 100;
     width: 100%;
+    transition: box-shadow 0.3s ease;
+  }
+  .header.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   }
   .header-inner {
     max-width: 1200px;
@@ -47,58 +215,87 @@
     font-size: 17px;
     cursor: pointer;
     color: #0f172a;
+    transition: transform 0.2s ease;
   }
+  .logo:hover { transform: scale(1.03); }
   .logo-icon {
     width: 30px;
     height: 30px;
-    background: #4263eb;
+    background: linear-gradient(135deg, #4263eb, #5b7cf5);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
     font-size: 15px;
+    transition: transform 0.3s ease;
   }
-  .nav {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-  }
+  .logo:hover .logo-icon { transform: rotate(-8deg) scale(1.1); }
+  .nav { display: flex; gap: 4px; align-items: center; }
   .nav-link {
     padding: 7px 13px;
     border-radius: 8px;
     font-size: 14px;
     color: #4a5568;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.2s ease;
     border: none;
     background: transparent;
     font-weight: 500;
+    position: relative;
   }
   .nav-link:hover { background: #f0f4ff; color: #4263eb; }
   .nav-link.active { background: #eef2ff; color: #4263eb; font-weight: 600; }
 
+  /* === BURGER ANIMATION === */
   .burger {
     display: none;
     background: none;
     border: none;
-    font-size: 22px;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
     color: #1a1a2e;
     padding: 6px;
+    position: relative;
+  }
+  .burger-lines {
+    width: 22px;
+    height: 2px;
+    background: #1a1a2e;
+    position: absolute;
+    left: 5px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .burger-lines:nth-child(1) { top: 9px; }
+  .burger-lines:nth-child(2) { top: 15px; }
+  .burger-lines:nth-child(3) { top: 21px; }
+  .burger.active .burger-lines:nth-child(1) {
+    top: 15px;
+    transform: rotate(45deg);
+  }
+  .burger.active .burger-lines:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  .burger.active .burger-lines:nth-child(3) {
+    top: 15px;
+    transform: rotate(-45deg);
   }
 
   /* Pages */
   .page { display: none; }
   .page.active { display: block; }
 
-  /* Hero */
+  /* === HERO === */
   .hero {
     max-width: 820px;
     margin: 0 auto;
     padding: 60px 16px 50px;
     text-align: center;
+    position: relative;
   }
+  .hero-content { position: relative; z-index: 1; }
   .hero h1 {
     font-size: 36px;
     font-weight: 800;
@@ -106,6 +303,12 @@
     color: #0f172a;
     margin-bottom: 20px;
     letter-spacing: -0.3px;
+  }
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, #4263eb, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   .hero p {
     font-size: 16px;
@@ -129,25 +332,80 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    transition: all 0.15s;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
   }
   .btn-primary {
-    background: #4263eb;
+    background: linear-gradient(135deg, #4263eb, #5b7cf5);
     color: #fff;
+    box-shadow: 0 4px 14px rgba(66, 99, 235, 0.3);
   }
-  .btn-primary:hover { background: #3451d1; }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #3451d1, #4a6af0);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(66, 99, 235, 0.4);
+  }
   .btn-secondary {
     background: #fff;
     color: #1a1a2e;
     border: 1px solid #e2e8f0;
   }
-  .btn-secondary:hover { background: #f8fafc; }
+  .btn-secondary:hover {
+    background: #f8fafc;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  }
   .btn-warm {
     background: #fef3c7;
     color: #92400e;
     border: 1px solid #fde68a;
   }
-  .btn-warm:hover { background: #fde68a; }
+  .btn-warm:hover {
+    background: #fde68a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(251, 191, 36, 0.25);
+  }
+  .btn:active { transform: translateY(0) scale(0.98); }
+
+  /* Ripple effect */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(0);
+    animation: rippleAnim 0.6s ease-out;
+    pointer-events: none;
+  }
+  @keyframes rippleAnim {
+    to { transform: scale(4); opacity: 0; }
+  }
+
+  /* === COUNTERS === */
+  .counters {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 30px auto 0;
+    flex-wrap: wrap;
+  }
+  .counter-item {
+    text-align: center;
+  }
+  .counter-value {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #4263eb, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .counter-label {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 6px;
+  }
 
   /* Sections */
   .section {
@@ -184,12 +442,12 @@
     border-radius: 14px;
     padding: 24px 18px;
     text-align: center;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .card:hover {
     border-color: #4263eb;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(66, 99, 235, 0.08);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(66, 99, 235, 0.12);
   }
   .card-icon {
     width: 42px;
@@ -202,6 +460,12 @@
     margin: 0 auto 14px;
     font-size: 19px;
     color: #4263eb;
+    transition: all 0.3s ease;
+  }
+  .card:hover .card-icon {
+    transform: scale(1.15) rotate(-5deg);
+    background: #4263eb;
+    color: #fff;
   }
   .card h3 {
     font-size: 15px;
@@ -223,12 +487,17 @@
     padding: 24px 18px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .nav-card:hover {
     border-color: #4263eb;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(66, 99, 235, 0.08);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(66, 99, 235, 0.12);
+  }
+  .nav-card:hover .card-icon {
+    transform: scale(1.15) rotate(-5deg);
+    background: #4263eb;
+    color: #fff;
   }
   .nav-card .card-link {
     display: inline-flex;
@@ -238,7 +507,9 @@
     font-size: 14px;
     font-weight: 600;
     margin-top: 12px;
+    transition: gap 0.2s ease;
   }
+  .nav-card:hover .card-link { gap: 8px; }
 
   /* CTA block */
   .cta-block {
@@ -248,6 +519,10 @@
     padding: 28px 20px;
     max-width: 560px;
     margin: 0 auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .cta-block:hover {
+    box-shadow: 0 8px 30px rgba(66, 99, 235, 0.08);
   }
   .cta-block h2 {
     text-align: center;
@@ -263,9 +538,7 @@
   }
 
   /* Form */
-  .form-group {
-    margin-bottom: 16px;
-  }
+  .form-group { margin-bottom: 16px; }
   .form-group label {
     display: block;
     font-size: 14px;
@@ -284,38 +557,43 @@
     font-size: 14px;
     font-family: inherit;
     background: #fafbff;
-    transition: border-color 0.15s;
+    transition: all 0.2s ease;
     color: #1a1a2e;
   }
   .form-group input::placeholder,
-  .form-group textarea::placeholder {
-    color: #94a3b8;
-  }
+  .form-group textarea::placeholder { color: #94a3b8; }
   .form-group input:focus,
   .form-group textarea:focus {
     outline: none;
     border-color: #4263eb;
     background: #fff;
+    box-shadow: 0 0 0 3px rgba(66, 99, 235, 0.1);
   }
-  .form-group textarea {
-    resize: vertical;
-    min-height: 88px;
-  }
+  .form-group textarea { resize: vertical; min-height: 88px; }
   .form-submit {
     width: 100%;
     padding: 12px;
-    background: #4263eb;
+    background: linear-gradient(135deg, #4263eb, #5b7cf5);
     color: #fff;
     border: none;
     border-radius: 10px;
     font-size: 14px;
     font-weight: 600;
-    transition: background 0.15s;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(66, 99, 235, 0.3);
   }
-  .form-submit:hover { background: #3451d1; }
+  .form-submit:hover {
+    background: linear-gradient(135deg, #3451d1, #4a6af0);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(66, 99, 235, 0.4);
+  }
   .form-submit:disabled {
     background: #93c5fd;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 
   /* Portfolio empty state */
@@ -336,18 +614,26 @@
     margin: 0 auto 24px;
     font-size: 42px;
     position: relative;
+    animation: pulse-icon 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse-icon {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(66, 99, 235, 0.2); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(66, 99, 235, 0); }
   }
   .portfolio-empty-icon::after {
     content: '';
     position: absolute;
-    top: -6px;
-    right: -6px;
-    width: 24px;
-    height: 24px;
+    top: -6px; right: -6px;
+    width: 24px; height: 24px;
     background: #fbbf24;
     border-radius: 50%;
     border: 3px solid #fff;
     box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
+    animation: bounce-dot 2s ease-in-out infinite;
+  }
+  @keyframes bounce-dot {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
   }
   .portfolio-empty h2 {
     font-size: 24px;
@@ -374,13 +660,8 @@
     gap: 10px;
     text-align: left;
   }
-  .portfolio-empty .empty-note .note-icon {
-    flex-shrink: 0;
-    font-size: 18px;
-  }
-  .portfolio-empty .btn {
-    margin-top: 8px;
-  }
+  .portfolio-empty .empty-note .note-icon { flex-shrink: 0; font-size: 18px; }
+  .portfolio-empty .btn { margin-top: 8px; }
 
   /* Lightbox */
   .lightbox {
@@ -392,8 +673,13 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
+    backdrop-filter: blur(8px);
   }
-  .lightbox.active { display: flex; }
+  .lightbox.active { display: flex; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
   .lightbox-content {
     max-width: 860px;
     width: 100%;
@@ -402,30 +688,20 @@
     overflow: hidden;
     max-height: 90vh;
     overflow-y: auto;
+    animation: scaleIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .lightbox-content img {
-    width: 100%;
-    max-height: 480px;
-    object-fit: cover;
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
   }
-  .lightbox-body {
-    padding: 22px;
-  }
-  .lightbox-body h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-  .lightbox-body p {
-    color: #475569;
-    margin-bottom: 7px;
-    font-size: 14px;
-  }
+  .lightbox-content img { width: 100%; max-height: 480px; object-fit: cover; }
+  .lightbox-body { padding: 22px; }
+  .lightbox-body h2 { font-size: 20px; margin-bottom: 10px; }
+  .lightbox-body p { color: #475569; margin-bottom: 7px; font-size: 14px; }
   .lightbox-close {
     position: absolute;
-    top: 18px;
-    right: 18px;
-    width: 38px;
-    height: 38px;
+    top: 18px; right: 18px;
+    width: 38px; height: 38px;
     background: #fff;
     border: none;
     border-radius: 50%;
@@ -434,7 +710,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.2s ease;
   }
+  .lightbox-close:hover { transform: rotate(90deg) scale(1.1); }
 
   /* Prices page */
   .prices-page-header {
@@ -449,11 +727,7 @@
     color: #0f172a;
     margin-bottom: 12px;
   }
-  .prices-page-header p {
-    color: #64748b;
-    font-size: 15px;
-    line-height: 1.6;
-  }
+  .prices-page-header p { color: #64748b; font-size: 15px; line-height: 1.6; }
   .price-disclaimer {
     background: #eef2ff;
     border: 1px solid #e0e7ff;
@@ -470,8 +744,7 @@
   }
   .price-disclaimer .info-icon {
     flex-shrink: 0;
-    width: 18px;
-    height: 18px;
+    width: 18px; height: 18px;
     background: #4263eb;
     color: #fff;
     border-radius: 50%;
@@ -499,8 +772,7 @@
   }
   .price-final-note .note-icon {
     flex-shrink: 0;
-    width: 24px;
-    height: 24px;
+    width: 24px; height: 24px;
     background: #fbbf24;
     color: #fff;
     border-radius: 50%;
@@ -509,6 +781,11 @@
     justify-content: center;
     font-size: 14px;
     font-weight: 700;
+    animation: pulse-warning 2s ease-in-out infinite;
+  }
+  @keyframes pulse-warning {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
   }
   .prices-grid {
     display: grid;
@@ -526,15 +803,20 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .price-card:hover {
     border-color: #4263eb;
-    box-shadow: 0 8px 24px rgba(66, 99, 235, 0.08);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(66, 99, 235, 0.12);
+  }
+  .price-card:hover .price-card-icon {
+    transform: scale(1.15) rotate(-5deg);
+    background: #4263eb;
+    color: #fff;
   }
   .price-card-icon {
-    width: 40px;
-    height: 40px;
+    width: 40px; height: 40px;
     background: #eef2ff;
     border-radius: 10px;
     display: flex;
@@ -542,33 +824,13 @@
     justify-content: center;
     font-size: 18px;
     color: #4263eb;
+    transition: all 0.3s ease;
   }
-  .price-card h3 {
-    font-size: 17px;
-    font-weight: 700;
-    color: #0f172a;
-  }
-  .price-card .desc {
-    color: #64748b;
-    font-size: 13.5px;
-    line-height: 1.55;
-    flex-grow: 1;
-  }
-  .price-card .price-row {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    margin-top: 4px;
-  }
-  .price-card .price {
-    font-size: 24px;
-    font-weight: 800;
-    color: #0f172a;
-  }
-  .price-card .price-unit {
-    font-size: 13px;
-    color: #64748b;
-  }
+  .price-card h3 { font-size: 17px; font-weight: 700; color: #0f172a; }
+  .price-card .desc { color: #64748b; font-size: 13.5px; line-height: 1.55; flex-grow: 1; }
+  .price-card .price-row { display: flex; align-items: baseline; gap: 6px; margin-top: 4px; }
+  .price-card .price { font-size: 24px; font-weight: 800; color: #0f172a; }
+  .price-card .price-unit { font-size: 13px; color: #64748b; }
   .price-card .price-note {
     font-size: 12px;
     color: #94a3b8;
@@ -579,8 +841,7 @@
   }
   .price-card .price-note .mini-icon {
     flex-shrink: 0;
-    width: 14px;
-    height: 14px;
+    width: 14px; height: 14px;
     border: 1.5px solid #94a3b8;
     border-radius: 50%;
     display: flex;
@@ -606,8 +867,7 @@
     text-align: center;
   }
   .articles-page-header .big-icon {
-    width: 52px;
-    height: 52px;
+    width: 52px; height: 52px;
     background: #eef2ff;
     border-radius: 14px;
     display: flex;
@@ -616,18 +876,10 @@
     margin: 0 auto 18px;
     font-size: 24px;
     color: #4263eb;
+    animation: pulse-icon 2.5s ease-in-out infinite;
   }
-  .articles-page-header h1 {
-    font-size: 28px;
-    font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 10px;
-  }
-  .articles-page-header p {
-    color: #64748b;
-    font-size: 14.5px;
-    line-height: 1.6;
-  }
+  .articles-page-header h1 { font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
+  .articles-page-header p { color: #64748b; font-size: 14.5px; line-height: 1.6; }
   .articles-list {
     max-width: 780px;
     margin: 0 auto;
@@ -642,11 +894,12 @@
     border-radius: 14px;
     padding: 22px 24px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .article-card:hover {
     border-color: #4263eb;
-    box-shadow: 0 6px 20px rgba(66, 99, 235, 0.08);
+    transform: translateX(6px);
+    box-shadow: 0 8px 24px rgba(66, 99, 235, 0.1);
   }
   .article-card .date {
     font-size: 13px;
@@ -656,21 +909,8 @@
     align-items: center;
     gap: 6px;
   }
-  .article-card .date .cal-icon {
-    font-size: 13px;
-  }
-  .article-card h3 {
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: #0f172a;
-    line-height: 1.35;
-  }
-  .article-card p {
-    color: #64748b;
-    font-size: 13.5px;
-    line-height: 1.55;
-  }
+  .article-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: #0f172a; line-height: 1.35; }
+  .article-card p { color: #64748b; font-size: 13.5px; line-height: 1.55; }
 
   /* Article full */
   .article-full {
@@ -686,25 +926,12 @@
     font-size: 14px;
     cursor: pointer;
     margin-bottom: 28px;
+    transition: all 0.2s ease;
   }
-  .article-full .back-link:hover { color: #4263eb; }
-  .article-full h1 {
-    font-size: 26px;
-    font-weight: 800;
-    margin-bottom: 10px;
-    color: #0f172a;
-    line-height: 1.3;
-  }
-  .article-full .meta {
-    color: #94a3b8;
-    font-size: 14px;
-    margin-bottom: 28px;
-  }
-  .article-full .content {
-    font-size: 15.5px;
-    line-height: 1.75;
-    color: #334155;
-  }
+  .article-full .back-link:hover { color: #4263eb; gap: 8px; }
+  .article-full h1 { font-size: 26px; font-weight: 800; margin-bottom: 10px; color: #0f172a; line-height: 1.3; }
+  .article-full .meta { color: #94a3b8; font-size: 14px; margin-bottom: 28px; }
+  .article-full .content { font-size: 15.5px; line-height: 1.75; color: #334155; }
   .article-full .content p { margin-bottom: 16px; }
 
   /* Contacts */
@@ -721,11 +948,11 @@
     font-size: 14px;
     cursor: pointer;
     margin-bottom: 28px;
+    transition: all 0.2s ease;
   }
-  .back-link:hover { color: #4263eb; }
+  .back-link:hover { color: #4263eb; gap: 8px; }
   .contacts-page .big-icon {
-    width: 54px;
-    height: 54px;
+    width: 54px; height: 54px;
     background: #eef2ff;
     border-radius: 14px;
     display: flex;
@@ -734,6 +961,7 @@
     margin: 0 auto 18px;
     font-size: 24px;
     color: #4263eb;
+    animation: pulse-icon 2.5s ease-in-out infinite;
   }
   .contacts-page h1 {
     text-align: center;
@@ -755,11 +983,12 @@
     gap: 14px;
     padding: 13px 0;
     border-bottom: 1px solid #f1f5f9;
+    transition: transform 0.2s ease;
   }
+  .contact-item:hover { transform: translateX(4px); }
   .contact-item:last-child { border-bottom: none; }
   .contact-item-icon {
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     background: #eef2ff;
     border-radius: 10px;
     display: flex;
@@ -768,30 +997,18 @@
     font-size: 16px;
     color: #4263eb;
     flex-shrink: 0;
+    transition: all 0.3s ease;
   }
-  .contact-item-label {
-    font-size: 13px;
-    color: #94a3b8;
+  .contact-item:hover .contact-item-icon {
+    background: #4263eb;
+    color: #fff;
+    transform: scale(1.1);
   }
-  .contact-item-value {
-    font-size: 15px;
-    font-weight: 600;
-    color: #0f172a;
-  }
-  .callback-header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .callback-header h2 {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 6px;
-    color: #0f172a;
-  }
-  .callback-header p {
-    color: #64748b;
-    font-size: 14px;
-  }
+  .contact-item-label { font-size: 13px; color: #94a3b8; }
+  .contact-item-value { font-size: 15px; font-weight: 600; color: #0f172a; }
+  .callback-header { text-align: center; margin-bottom: 20px; }
+  .callback-header h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #0f172a; }
+  .callback-header p { color: #64748b; font-size: 14px; }
 
   /* Success message */
   .success-msg {
@@ -805,7 +1022,14 @@
     margin-top: 14px;
     text-align: center;
   }
-  .success-msg.active { display: block; }
+  .success-msg.active {
+    display: block;
+    animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); max-height: 0; }
+    to { opacity: 1; transform: translateY(0); max-height: 100px; }
+  }
 
   /* Mobile nav */
   .mobile-nav {
@@ -821,12 +1045,14 @@
     gap: 6px;
     z-index: 99;
     box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    animation: slideDownNav 0.3s ease;
+  }
+  @keyframes slideDownNav {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   .mobile-nav.active { display: flex; }
-  .mobile-nav .nav-link {
-    text-align: left;
-    padding: 10px 14px;
-  }
+  .mobile-nav .nav-link { text-align: left; padding: 10px 14px; }
 
   /* Responsive */
   @media (max-width: 960px) {
@@ -834,6 +1060,7 @@
     .prices-grid { grid-template-columns: repeat(2, 1fr); }
     .hero h1 { font-size: 32px; }
     .section-title { font-size: 26px; }
+    .counters { gap: 24px; }
   }
   @media (max-width: 640px) {
     .nav { display: none; }
@@ -849,21 +1076,26 @@
     .prices-page-header, .articles-page-header { padding: 32px 16px 20px; }
     .prices-page-header h1, .articles-page-header h1 { font-size: 24px; }
     .contact-list { padding: 16px 18px; }
-    .price-final-note { 
-      flex-direction: column; 
-      text-align: center;
-      padding: 14px 16px;
-    }
+    .price-final-note { flex-direction: column; text-align: center; padding: 14px 16px; }
     .price-final-note .note-icon { margin: 0 auto; }
     .portfolio-empty-icon { width: 72px; height: 72px; font-size: 34px; }
     .portfolio-empty h2 { font-size: 20px; }
+    .counter-value { font-size: 26px; }
+    .counters { gap: 20px; }
+    .scroll-top { bottom: 20px; right: 20px; width: 44px; height: 44px; }
   }
 </style>
 </head>
 <body>
 
+<!-- Scroll Progress Bar -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Scroll to Top Button -->
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Наверх">↑</button>
+
 <!-- Header -->
-<header class="header">
+<header class="header" id="mainHeader">
   <div class="header-inner">
     <div class="logo" onclick="showPage('home')">
       <div class="logo-icon">🛣</div>
@@ -876,7 +1108,11 @@
       <button class="nav-link" data-page="articles">Статьи</button>
       <button class="nav-link" data-page="contacts">Контакты</button>
     </nav>
-    <button class="burger" onclick="toggleMobileNav()">☰</button>
+    <button class="burger" id="burgerBtn" onclick="toggleMobileNav()" aria-label="Меню">
+      <span class="burger-lines"></span>
+      <span class="burger-lines"></span>
+      <span class="burger-lines"></span>
+    </button>
   </div>
   <div class="mobile-nav" id="mobileNav">
     <button class="nav-link" data-page="home" onclick="showPage('home');toggleMobileNav()">Главная</button>
@@ -890,41 +1126,57 @@
 <!-- HOME PAGE -->
 <div class="page active" id="page-home">
   <section class="hero">
-    <h1>Профессиональное асфальтирование в Томске и области</h1>
-    <p>Более 10 лет качественно укладываем асфальт на дворах, подъездных путях, парковках и пешеходных дорожках. Работаем с частными и коммерческими заказами.</p>
-    <div class="hero-buttons">
-      <button class="btn btn-primary" onclick="showPage('portfolio')">
-        Наши работы
-      </button>
-      <button class="btn btn-secondary" onclick="showPage('contacts')">
-        Связаться с нами
-      </button>
-      <button class="btn btn-warm" onclick="scrollToForm()">
-        📞 Перезвоните мне
-      </button>
+    <div class="hero-bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+    </div>
+    <div class="hero-content">
+      <h1 class="reveal">Профессиональное <span class="highlight">асфальтирование</span> в Томске и области</h1>
+      <p class="reveal stagger-1">Более 10 лет качественно укладываем асфальт на дворах, подъездных путях, парковках и пешеходных дорожках. Работаем с частными и коммерческими заказами.</p>
+      <div class="hero-buttons reveal stagger-2">
+        <button class="btn btn-primary ripple-btn" onclick="showPage('portfolio')">Наши работы</button>
+        <button class="btn btn-secondary ripple-btn" onclick="showPage('contacts')">Связаться с нами</button>
+        <button class="btn btn-warm ripple-btn" onclick="scrollToForm()">📞 Перезвоните мне</button>
+      </div>
+      <div class="counters reveal stagger-3">
+        <div class="counter-item">
+          <div class="counter-value" data-target="10" data-suffix="+">0</div>
+          <div class="counter-label">лет опыта</div>
+        </div>
+        <div class="counter-item">
+          <div class="counter-value" data-target="500" data-suffix="+">0</div>
+          <div class="counter-label">объектов</div>
+        </div>
+        <div class="counter-item">
+          <div class="counter-value" data-target="3" data-suffix=" года">0</div>
+          <div class="counter-label">гарантии</div>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="section">
-    <h2 class="section-title">Почему выбирают нас</h2>
-    <p class="section-subtitle">Работаем честно и открыто. Каждый объект — под контролем.</p>
+    <h2 class="section-title reveal">Почему выбирают нас</h2>
+    <p class="section-subtitle reveal stagger-1">Работаем честно и открыто. Каждый объект — под контролем.</p>
     <div class="cards-grid">
-      <div class="card">
-        <div class="card-icon">🛡</div>
+      <div class="card reveal stagger-1">
+        <div class="card-icon"></div>
         <h3>Работаем официально</h3>
         <p>Договор, гарантия, все документы. Работаем с НДС и без.</p>
       </div>
-      <div class="card">
+      <div class="card reveal stagger-2">
         <div class="card-icon">📏</div>
         <h3>Бесплатный замер</h3>
         <p>Выезжаем на объект, делаем замер и рассчитываем точную смету бесплатно.</p>
       </div>
-      <div class="card">
+      <div class="card reveal stagger-3">
         <div class="card-icon">🚜</div>
         <h3>Своя техника</h3>
         <p>Работаем на собственном оборудовании — это даёт лучшую цену и сроки.</p>
       </div>
-      <div class="card">
+      <div class="card reveal stagger-4">
         <div class="card-icon">✓</div>
         <h3>Гарантия на работы</h3>
         <p>Даём гарантию до 3 лет на все виды асфальтирования.</p>
@@ -934,28 +1186,28 @@
 
   <section class="section" style="background:#f0f4ff;">
     <div style="max-width:1200px; margin:0 auto;">
-      <h2 class="section-title">Чем мы занимаемся</h2>
-      <p class="section-subtitle">Выберите интересующий вас раздел</p>
+      <h2 class="section-title reveal">Чем мы занимаемся</h2>
+      <p class="section-subtitle reveal stagger-1">Выберите интересующий вас раздел</p>
       <div class="cards-grid">
-        <div class="nav-card" onclick="showPage('portfolio')">
+        <div class="nav-card reveal stagger-1" onclick="showPage('portfolio')">
           <div class="card-icon">🖼</div>
           <h3>Портфолио</h3>
           <p>Фото наших работ: дворы, парковки, дорожки</p>
           <div class="card-link">Перейти →</div>
         </div>
-        <div class="nav-card" onclick="showPage('prices')">
+        <div class="nav-card reveal stagger-2" onclick="showPage('prices')">
           <div class="card-icon">💰</div>
           <h3>Цены</h3>
           <p>Примерные цены на основные виды работ</p>
           <div class="card-link">Перейти →</div>
         </div>
-        <div class="nav-card" onclick="showPage('articles')">
+        <div class="nav-card reveal stagger-3" onclick="showPage('articles')">
           <div class="card-icon">📄</div>
           <h3>Статьи</h3>
           <p>Полезная информация об асфальтировании</p>
           <div class="card-link">Перейти →</div>
         </div>
-        <div class="nav-card" onclick="showPage('contacts')">
+        <div class="nav-card reveal stagger-4" onclick="showPage('contacts')">
           <div class="card-icon">📞</div>
           <h3>Контакты</h3>
           <p>Как с нами связаться</p>
@@ -966,14 +1218,13 @@
   </section>
 
   <section class="section" id="measurementForm">
-    <h2 class="section-title">Нужен бесплатный замер?</h2>
-    <p class="section-subtitle">Приедем на объект, всё замерим и рассчитаем точную стоимость.<br>Никаких скрытых платежей и навязанных услуг.</p>
-    <div class="cta-block">
+    <h2 class="section-title reveal">Нужен бесплатный замер?</h2>
+    <p class="section-subtitle reveal stagger-1">Приедем на объект, всё замерим и рассчитаем точную стоимость.<br>Никаких скрытых платежей и навязанных услуг.</p>
+    <div class="cta-block reveal-scale stagger-2">
       <form id="measurementFormEl" onsubmit="submitMeasurement(event)">
         <input type="hidden" name="access_key" value="17128bcd-98ea-41f3-bcf0-297c9ef9d89a">
         <input type="hidden" name="subject" value="🔨 Новая заявка на замер — АсфальтТомск">
         <input type="hidden" name="from_name" value="АсфальтТомск Сайт">
-        
         <div class="form-group">
           <label>Имя</label>
           <input type="text" name="name" placeholder="Ваше имя" required>
@@ -990,7 +1241,7 @@
           <label>Комментарий <span class="opt">(необязательно)</span></label>
           <textarea name="message" placeholder="Опишите объём работ или задайте вопрос"></textarea>
         </div>
-        <button type="submit" class="form-submit" id="measurementBtn">Отправить заявку</button>
+        <button type="submit" class="form-submit ripple-btn" id="measurementBtn">Отправить заявку</button>
         <div class="success-msg" id="measurementSuccess">✓ Заявка отправлена! Мы перезвоним вам в ближайшее время.</div>
       </form>
     </div>
@@ -1000,9 +1251,9 @@
 <!-- PORTFOLIO PAGE -->
 <div class="page" id="page-portfolio">
   <section class="section">
-    <h2 class="section-title">Портфолио работ</h2>
-    <p class="section-subtitle">Раздел с примерами наших выполненных объектов</p>
-    <div class="portfolio-empty">
+    <h2 class="section-title reveal">Портфолио работ</h2>
+    <p class="section-subtitle reveal stagger-1">Раздел с примерами наших выполненных объектов</p>
+    <div class="portfolio-empty reveal-scale stagger-2">
       <div class="portfolio-empty-icon">📷</div>
       <h2>Портфолио в процессе наполнения</h2>
       <p>Сейчас мы активно собираем фотографии с наших объектов. Скоро здесь появятся реальные примеры выполненных работ: дворы, подъездные дороги, парковки и пешеходные дорожки.</p>
@@ -1010,7 +1261,7 @@
         <span class="note-icon">💡</span>
         <span>Хотите посмотреть примеры работ прямо сейчас? Свяжитесь с нами — покажем фото и расскажем о последних объектах.</span>
       </div>
-      <button class="btn btn-primary" onclick="showPage('contacts')">Связаться с нами</button>
+      <button class="btn btn-primary ripple-btn" onclick="showPage('contacts')">Связаться с нами</button>
     </div>
   </section>
 </div>
@@ -1018,14 +1269,14 @@
 <!-- PRICES PAGE -->
 <div class="page" id="page-prices">
   <div class="prices-page-header">
-    <h1>Цены и услуги</h1>
-    <p>Примерные цены на основные виды асфальтирования. Точная стоимость рассчитывается после бесплатного выезда специалиста на замер.</p>
+    <h1 class="reveal">Цены и услуги</h1>
+    <p class="reveal stagger-1">Примерные цены на основные виды асфальтирования. Точная стоимость рассчитывается после бесплатного выезда специалиста на замер.</p>
   </div>
-  <div class="price-disclaimer" style="max-width:1100px; margin-left:auto; margin-right:auto;">
+  <div class="price-disclaimer reveal stagger-2" style="max-width:1100px; margin-left:auto; margin-right:auto;">
     <div class="info-icon">i</div>
     <div>Цены указаны как примерные. Итоговая стоимость зависит от площади, состояния основания, необходимости демонтажных работ и других факторов. Для точного расчёта пригласите нашего специалиста на бесплатный замер.</div>
   </div>
-  <div class="price-final-note">
+  <div class="price-final-note reveal stagger-3">
     <div class="note-icon">!</div>
     <div>Окончательная цена утверждается при встрече после осмотра объекта и обсуждения всех деталей</div>
   </div>
@@ -1036,8 +1287,8 @@
 <div class="page" id="page-articles">
   <div class="articles-page-header">
     <div class="big-icon">📄</div>
-    <h1>Полезные статьи</h1>
-    <p>Полезная информация об асфальтировании: выбор материала, этапы работ, уход за покрытием и советы профессионалов</p>
+    <h1 class="reveal">Полезные статьи</h1>
+    <p class="reveal stagger-1">Полезная информация об асфальтировании: выбор материала, этапы работ, уход за покрытием и советы профессионалов</p>
   </div>
   <div class="articles-list" id="articlesList"></div>
 </div>
@@ -1050,12 +1301,12 @@
 <!-- CONTACTS PAGE -->
 <div class="page" id="page-contacts">
   <div class="contacts-page">
-    <div class="back-link" onclick="showPage('home')">← На главную</div>
+    <div class="back-link reveal" onclick="showPage('home')">← На главную</div>
     <div class="big-icon">📞</div>
-    <h1>Контакты</h1>
-    <div class="contact-list">
+    <h1 class="reveal stagger-1">Контакты</h1>
+    <div class="contact-list reveal-scale stagger-2">
       <div class="contact-item">
-        <div class="contact-item-icon">📞</div>
+        <div class="contact-item-icon"></div>
         <div>
           <div class="contact-item-label">Телефон</div>
           <div class="contact-item-value">+7 (913) 821-06-58</div>
@@ -1076,17 +1327,15 @@
         </div>
       </div>
     </div>
-
-    <div class="callback-header">
+    <div class="callback-header reveal stagger-3">
       <h2>Заказать обратный звонок</h2>
       <p>Оставьте имя и телефон — мы перезвоним вам в ближайшее время</p>
     </div>
-    <div class="cta-block" style="max-width:100%;">
+    <div class="cta-block reveal-scale stagger-4" style="max-width:100%;">
       <form id="callbackFormEl" onsubmit="submitCallback(event)">
         <input type="hidden" name="access_key" value="17128bcd-98ea-41f3-bcf0-297c9ef9d89a">
         <input type="hidden" name="subject" value="📞 Обратный звонок — АсфальтТомск">
         <input type="hidden" name="from_name" value="АсфальтТомск Сайт">
-        
         <div class="form-group">
           <label>Имя</label>
           <input type="text" name="name" placeholder="Ваше имя" required>
@@ -1095,7 +1344,7 @@
           <label>Телефон <span class="req">*</span></label>
           <input type="tel" name="phone" id="phone2" placeholder="+7 (999) 123-45-67" required>
         </div>
-        <button type="submit" class="form-submit" id="callbackBtn">Перезвоните мне</button>
+        <button type="submit" class="form-submit ripple-btn" id="callbackBtn">Перезвоните мне</button>
         <div class="success-msg" id="callbackSuccess">✓ Заявка отправлена! Мы перезвоним вам в ближайшее время.</div>
       </form>
     </div>
@@ -1109,144 +1358,31 @@
 </div>
 
 <script>
+// === DATA ===
 const priceItems = [
-  {
-    icon: '🏠',
-    title: 'Асфальтирование двора',
-    price: 'от 1 200 ₽',
-    unit: 'за м²',
-    desc: 'Полный цикл работ по асфальтированию придомовой территории: демонтаж старого покрытия, выравнивание, укладка асфальта, установка бордюров.',
-    note: 'Цена зависит от состояния основания и объёма работ',
-  },
-  {
-    icon: '🛤',
-    title: 'Подъездная дорога',
-    price: 'от 1 100 ₽',
-    unit: 'за м²',
-    desc: 'Устройство подъездных путей к частному дому или участку: подготовка основания, укладка асфальта, укрепление обочины.',
-    note: 'Минимальная площадь — 50 м²',
-  },
-  {
-    icon: '🚗',
-    title: 'Парковка',
-    price: 'от 1 300 ₽',
-    unit: 'за м²',
-    desc: 'Асфальтирование парковочных мест для легкового и грузового транспорта с учётом нагрузки. Возможна нанесение разметки.',
-    note: 'Усиленное основание рассчитывается отдельно',
-  },
-  {
-    icon: '🌿',
-    title: 'Садовые и пешеходные дорожки',
-    price: 'от 900 ₽',
-    unit: 'за м²',
-    desc: 'Асфальтирование пешеходных зон, дорожек в скверах и на участках. Аккуратное примыкание к газонам и бордюрам.',
-    note: 'При заказе от 100 м² — скидка',
-  },
-  {
-    icon: '🏭',
-    title: 'Промышленные площадки',
-    price: 'от 1 500 ₽',
-    unit: 'за м²',
-    desc: 'Асфальтирование территорий предприятий, складских комплексов и производственных зон с усиленным основанием.',
-    note: 'Точная цена после выезда специалиста',
-  },
-  {
-    icon: '🚶',
-    title: 'Тротуары',
-    price: 'от 1 000 ₽',
-    unit: 'за м²',
-    desc: 'Укладка асфальта на тротуарах вдоль улиц с установкой бордюрного камня и организацией водоотвода.',
-    note: 'Выезды для авто рассчитываются дополнительно',
-  },
-  {
-    icon: '🧱',
-    title: 'Укладка тротуарной плитки / брусчатки',
-    price: 'от 1 100 ₽',
-    unit: 'за м²',
-    desc: 'Устройство пешеходных зон и площадок с укладкой тротуарной плитки на песчано-цементное основание. Установка бордюров.',
-    note: 'Стоимость плитки оплачивается отдельно',
-  }
+  { icon: '', title: 'Асфальтирование двора', price: 'от 1 200 ₽', unit: 'за м²', desc: 'Полный цикл работ по асфальтированию придомовой территории: демонтаж старого покрытия, выравнивание, укладка асфальта, установка бордюров.', note: 'Цена зависит от состояния основания и объёма работ' },
+  { icon: '', title: 'Подъездная дорога', price: 'от 1 100 ₽', unit: 'за м²', desc: 'Устройство подъездных путей к частному дому или участку: подготовка основания, укладка асфальта, укрепление обочины.', note: 'Минимальная площадь — 50 м²' },
+  { icon: '🚗', title: 'Парковка', price: 'от 1 300 ₽', unit: 'за м²', desc: 'Асфальтирование парковочных мест для легкового и грузового транспорта с учётом нагрузки. Возможна нанесение разметки.', note: 'Усиленное основание рассчитывается отдельно' },
+  { icon: '🌿', title: 'Садовые и пешеходные дорожки', price: 'от 900 ₽', unit: 'за м²', desc: 'Асфальтирование пешеходных зон, дорожек в скверах и на участках. Аккуратное примыкание к газонам и бордюрам.', note: 'При заказе от 100 м² — скидка' },
+  { icon: '🏭', title: 'Промышленные площадки', price: 'от 1 500 ₽', unit: 'за м²', desc: 'Асфальтирование территорий предприятий, складских комплексов и производственных зон с усиленным основанием.', note: 'Точная цена после выезда специалиста' },
+  { icon: '🚶', title: 'Тротуары', price: 'от 1 000 ₽', unit: 'за м²', desc: 'Укладка асфальта на тротуарах вдоль улиц с установкой бордюрного камня и организацией водоотвода.', note: 'Выезды для авто рассчитываются дополнительно' },
+  { icon: '🧱', title: 'Укладка тротуарной плитки / брусчатки', price: 'от 1 100 ₽', unit: 'за м²', desc: 'Устройство пешеходных зон и площадок с укладкой тротуарной плитки на песчано-цементное основание. Установка бордюров.', note: 'Стоимость плитки оплачивается отдельно' }
 ];
 
 const articles = [
-  {
-    slug: 'kak-vybrat-asfalt',
-    date: '15 марта 2025 г.',
-    title: 'Как выбрать асфальт для двора частного дома',
-    short: 'Разбираемся в типах асфальтового покрытия, толщине слоя и особенностях укладки, чтобы двор радовал долгие годы.',
-    content: `<p>Выбор асфальта для частного дома — задача, которая требует понимания нескольких ключевых моментов. На рынке представлено несколько видов асфальтобетонных смесей, и каждая из них подходит для определённых условий эксплуатации.</p>
-<p><strong>Крупнозернистый асфальт</strong> используется для нижнего слоя покрытия. Он обеспечивает прочность и устойчивость к нагрузкам. Для частного двора обычно достаточно одного слоя крупнозернистого и одного слоя мелкозернистого асфальта.</p>
-<p><strong>Мелкозернистый асфальт</strong> — это верхний слой, который обеспечивает ровность и гладкость поверхности. Именно его видят хозяева и гости дома.</p>
-<p>Для двора частного дома оптимальная толщина покрытия — 8-10 см (два слоя по 4-5 см). Если по покрытию будет ездить тяжёлая техника, толщину увеличивают до 12-15 см.</p>
-<p>При выборе подрядчика обращайте внимание на наличие собственной техники и опыт работы. Это гарантирует качество и соблюдение сроков.</p>`
-  },
-  {
-    slug: 'etapy-rabot',
-    date: '28 февраля 2025 г.',
-    title: 'Этапы асфальтирования: от замера до приёмки',
-    short: 'Пошаговая инструкция: как происходит асфальтирование участка, какие этапы проходит заказчик и на что обратить внимание.',
-    content: `<p>Асфальтирование — это технологический процесс, который состоит из нескольких обязательных этапов. Нарушение любого из них приводит к снижению срока службы покрытия.</p>
-<p><strong>1. Замер и смета.</strong> Специалист выезжает на объект, оценивает состояние грунта, размеры площадки и составляет точную смету. Этот этап бесплатный.</p>
-<p><strong>2. Снятие старого покрытия.</strong> Если на участке уже был асфальт или другое покрытие, его необходимо удалить. Это делается с помощью специальной техники — холодных фрез или вручную.</p>
-<p><strong>3. Подготовка основания.</strong> На грунт насыпается слой щебня (обычно 15-20 см), который тщательно утрамбовывается. От качества основания зависит долговечность всего покрытия.</p>
-<p><strong>4. Укладка асфальта.</strong> Асфальтобетонная смесь укладывается слоями. Каждый слой уплотняется катком. Температура смеси при укладке должна быть не ниже 120°C.</p>
-<p><strong>5. Финальное уплотнение и сдача.</strong> После укладки всех слоёв проводится финальное уплотнение. Покрытие готово к эксплуатации через 24-48 часов. Заказчик принимает работу и подписывает акт.</p>`
-  },
-  {
-    slug: 'sroki-sluzhby',
-    date: '10 февраля 2025 г.',
-    title: 'Сколько служит асфальт и от чего зависит срок службы',
-    short: 'Реальные цифры: сколько лет прослужит асфальтовое покрытие, как продлить его срок службы и когда нужен ремонт.',
-    content: `<p>Срок службы асфальтового покрытия зависит от множества факторов: качества материалов, толщины слоёв, интенсивности эксплуатации и климатических условий.</p>
-<p>При правильном устройстве и умеренной нагрузке (легковые автомобили) асфальт во дворе частного дома служит <strong>10-15 лет</strong> без капитального ремонта.</p>
-<p>Основные факторы, влияющие на долговечность:</p>
-<p>• <strong>Качество основания</strong> — плохо утрамбованный щебень приводит к просадкам и трещинам.<br>
-• <strong>Толщина покрытия</strong> — чем больше нагрузка, тем толще должен быть слой.<br>
-• <strong>Водоотвод</strong> — застой воды разрушает покрытие.<br>
-• <strong>Климат</strong> — перепады температур и морозы ускоряют износ.</p>
-<p>Регулярный уход (заделка трещин, ямочный ремонт) продлевает срок службы покрытия на 3-5 лет. Рекомендуется осматривать покрытие весной после схода снега и осенью перед заморозками.</p>`
-  },
-  {
-    slug: 'asfalt-ili-plitka',
-    date: '25 января 2025 г.',
-    title: 'Асфальт или тротуарная плитка: что лучше для двора',
-    short: 'Сравниваем два популярных покрытия по цене, долговечности, внешнему виду и удобству эксплуатации.',
-    content: `<p>Частый вопрос при благоустройстве двора: что выбрать — асфальт или тротуарную плитку? У каждого варианта есть свои преимущества и недостатки.</p>
-<p><strong>Асфальт</strong> — дешевле (в 1.5-2 раза), укладывается быстрее, создаёт ровное монолитное покрытие. Идеален для проездов и парковок. Минус — менее эстетичный вид.</p>
-<p><strong>Тротуарная плитка</strong> — красивее, позволяет создавать узоры, легко ремонтируется (можно заменить отдельные плитки). Минус — дороже, дольше укладывается, со временем может проседать.</p>
-<p>Оптимальное решение: асфальт для проезжей части двора и парковки, плитка — для пешеходных зон и отмостки вокруг дома. Такой комбинированный подход даёт и практичность, и красоту.</p>`
-  },
-  {
-    slug: 'cenooobrazovanie',
-    date: '12 января 2025 г.',
-    title: 'Из чего складывается цена асфальтирования',
-    short: 'Разбираем структуру стоимости работ и объясняем, почему цены у разных подрядчиков отличаются.',
-    content: `<p>Цена асфальтирования формируется из нескольких составляющих. Понимание этой структуры поможет вам оценить предложение подрядчика и избежать переплат.</p>
-<p><strong>Материалы</strong> — асфальтобетонная смесь, щебень, бордюры. Составляют 40-50% стоимости.<br>
-<strong>Работа</strong> — оплата труда рабочих и операторов техники. 25-30%.<br>
-<strong>Техника</strong> — аренда или амортизация собственной техники. 15-20%.<br>
-<strong>Накладные расходы</strong> — логистика, управление, налоги. 10-15%.</p>
-<p>Почему цены отличаются? Подрядчики с собственной техникой обычно дешевле тех, кто арендует. Также влияет объём работ — на больших объектах цена за м² ниже. Всегда запрашивайте детальную смету и сравнивайте предложения.</p>`
-  },
-  {
-    slug: 'podgotovka-k-zameru',
-    date: '5 января 2025 г.',
-    title: 'Как подготовиться к приезду замерщика',
-    short: 'Простые советы, которые помогут сэкономить время и получить точный расчёт стоимости работ.',
-    content: `<p>Чтобы выезд замерщика прошёл максимально эффективно, подготовьтесь заранее:</p>
-<p>• <strong>Определите границы</strong> — отметьте колышками или мелом границы будущего покрытия.<br>
-• <strong>Освободите территорию</strong> — уберите автомобили, мусор, строительные материалы.<br>
-• <strong>Подготовьте документы</strong> — если есть план участка, это ускорит работу.<br>
-• <strong>Сформулируйте пожелания</strong> — толщина покрытия, необходимость бордюров, водоотвода.</p>
-<p>Замер обычно занимает 30-60 минут. После него в течение 1-2 дней вы получаете смету с точной стоимостью работ. Если всё устраивает — согласовываем дату начала работ.</p>`
-  }
+  { slug: 'kak-vybrat-asfalt', date: '15 марта 2025 г.', title: 'Как выбрать асфальт для двора частного дома', short: 'Разбираемся в типах асфальтового покрытия, толщине слоя и особенностях укладки, чтобы двор радовал долгие годы.', content: '<p>Выбор асфальта для частного дома — задача, которая требует понимания нескольких ключевых моментов. На рынке представлено несколько видов асфальтобетонных смесей, и каждая из них подходит для определённых условий эксплуатации.</p><p><strong>Крупнозернистый асфальт</strong> используется для нижнего слоя покрытия. Он обеспечивает прочность и устойчивость к нагрузкам. Для частного двора обычно достаточно одного слоя крупнозернистого и одного слоя мелкозернистого асфальта.</p><p><strong>Мелкозернистый асфальт</strong> — это верхний слой, который обеспечивает ровность и гладкость поверхности. Именно его видят хозяева и гости дома.</p><p>Для двора частного дома оптимальная толщина покрытия — 8-10 см (два слоя по 4-5 см). Если по покрытию будет ездить тяжёлая техника, толщину увеличивают до 12-15 см.</p><p>При выборе подрядчика обращайте внимание на наличие собственной техники и опыт работы. Это гарантирует качество и соблюдение сроков.</p>' },
+  { slug: 'etapy-rabot', date: '28 февраля 2025 г.', title: 'Этапы асфальтирования: от замера до приёмки', short: 'Пошаговая инструкция: как происходит асфальтирование участка, какие этапы проходит заказчик и на что обратить внимание.', content: '<p>Асфальтирование — это технологический процесс, который состоит из нескольких обязательных этапов. Нарушение любого из них приводит к снижению срока службы покрытия.</p><p><strong>1. Замер и смета.</strong> Специалист выезжает на объект, оценивает состояние грунта, размеры площадки и составляет точную смету. Этот этап бесплатный.</p><p><strong>2. Снятие старого покрытия.</strong> Если на участке уже был асфальт или другое покрытие, его необходимо удалить. Это делается с помощью специальной техники — холодных фрез или вручную.</p><p><strong>3. Подготовка основания.</strong> На грунт насыпается слой щебня (обычно 15-20 см), который тщательно утрамбовывается. От качества основания зависит долговечность всего покрытия.</p><p><strong>4. Укладка асфальта.</strong> Асфальтобетонная смесь укладывается слоями. Каждый слой уплотняется катком. Температура смеси при укладке должна быть не ниже 120°C.</p><p><strong>5. Финальное уплотнение и сдача.</strong> После укладки всех слоёв проводится финальное уплотнение. Покрытие готово к эксплуатации через 24-48 часов. Заказчик принимает работу и подписывает акт.</p>' },
+  { slug: 'sroki-sluzhby', date: '10 февраля 2025 г.', title: 'Сколько служит асфальт и от чего зависит срок службы', short: 'Реальные цифры: сколько лет прослужит асфальтовое покрытие, как продлить его срок службы и когда нужен ремонт.', content: '<p>Срок службы асфальтового покрытия зависит от множества факторов: качества материалов, толщины слоёв, интенсивности эксплуатации и климатических условий.</p><p>При правильном устройстве и умеренной нагрузке (легковые автомобили) асфальт во дворе частного дома служит <strong>10-15 лет</strong> без капитального ремонта.</p><p>Основные факторы, влияющие на долговечность:</p><p>• <strong>Качество основания</strong> — плохо утрамбованный щебень приводит к просадкам и трещинам.<br>• <strong>Толщина покрытия</strong> — чем больше нагрузка, тем толще должен быть слой.<br>• <strong>Водоотвод</strong> — застой воды разрушает покрытие.<br>• <strong>Климат</strong> — перепады температур и морозы ускоряют износ.</p><p>Регулярный уход (заделка трещин, ямочный ремонт) продлевает срок службы покрытия на 3-5 лет. Рекомендуется осматривать покрытие весной после схода снега и осенью перед заморозками.</p>' },
+  { slug: 'asfalt-ili-plitka', date: '25 января 2025 г.', title: 'Асфальт или тротуарная плитка: что лучше для двора', short: 'Сравниваем два популярных покрытия по цене, долговечности, внешнему виду и удобству эксплуатации.', content: '<p>Частый вопрос при благоустройстве двора: что выбрать — асфальт или тротуарную плитку? У каждого варианта есть свои преимущества и недостатки.</p><p><strong>Асфальт</strong> — дешевле (в 1.5-2 раза), укладывается быстрее, создаёт ровное монолитное покрытие. Идеален для проездов и парковок. Минус — менее эстетичный вид.</p><p><strong>Тротуарная плитка</strong> — красивее, позволяет создавать узоры, легко ремонтируется (можно заменить отдельные плитки). Минус — дороже, дольше укладывается, со временем может проседать.</p><p>Оптимальное решение: асфальт для проезжей части двора и парковки, плитка — для пешеходных зон и отмостки вокруг дома. Такой комбинированный подход даёт и практичность, и красоту.</p>' },
+  { slug: 'cenooobrazovanie', date: '12 января 2025 г.', title: 'Из чего складывается цена асфальтирования', short: 'Разбираем структуру стоимости работ и объясняем, почему цены у разных подрядчиков отличаются.', content: '<p>Цена асфальтирования формируется из нескольких составляющих. Понимание этой структуры поможет вам оценить предложение подрядчика и избежать переплат.</p><p><strong>Материалы</strong> — асфальтобетонная смесь, щебень, бордюры. Составляют 40-50% стоимости.<br><strong>Работа</strong> — оплата труда рабочих и операторов техники. 25-30%.<br><strong>Техника</strong> — аренда или амортизация собственной техники. 15-20%.<br><strong>Накладные расходы</strong> — логистика, управление, налоги. 10-15%.</p><p>Почему цены отличаются? Подрядчики с собственной техникой обычно дешевле тех, кто арендует. Также влияет объём работ — на больших объектах цена за м² ниже. Всегда запрашивайте детальную смету и сравнивайте предложения.</p>' },
+  { slug: 'podgotovka-k-zameru', date: '5 января 2025 г.', title: 'Как подготовиться к приезду замерщика', short: 'Простые советы, которые помогут сэкономить время и получить точный расчёт стоимости работ.', content: '<p>Чтобы выезд замерщика прошёл максимально эффективно, подготовьтесь заранее:</p><p>• <strong>Определите границы</strong> — отметьте колышками или мелом границы будущего покрытия.<br>• <strong>Освободите территорию</strong> — уберите автомобили, мусор, строительные материалы.<br>• <strong>Подготовьте документы</strong> — если есть план участка, это ускорит работу.<br>• <strong>Сформулируйте пожелания</strong> — толщина покрытия, необходимость бордюров, водоотвода.</p><p>Замер обычно занимает 30-60 минут. После него в течение 1-2 дней вы получаете смету с точной стоимостью работ. Если всё устраивает — согласовываем дату начала работ.</p>' }
 ];
 
-// Render prices
+// === RENDER FUNCTIONS ===
 function renderPrices() {
   const grid = document.getElementById('pricesGrid');
-  grid.innerHTML = priceItems.map(item => `
-    <div class="price-card">
+  grid.innerHTML = priceItems.map((item, i) => `
+    <div class="price-card reveal stagger-${Math.min(i + 1, 7)}">
       <div class="price-card-icon">${item.icon}</div>
       <h3>${item.title}</h3>
       <p class="desc">${item.desc}</p>
@@ -1258,44 +1394,44 @@ function renderPrices() {
         <span class="mini-icon">i</span>
         <span>${item.note}</span>
       </div>
-      <button class="btn btn-primary" onclick="showPage('contacts')">Заказать замер</button>
+      <button class="btn btn-primary ripple-btn" onclick="showPage('contacts')">Заказать замер</button>
     </div>
   `).join('');
+  observeRevealElements();
 }
 
-// Render articles
 function renderArticles() {
   const list = document.getElementById('articlesList');
-  list.innerHTML = articles.map(a => `
-    <div class="article-card" onclick="openArticle('${a.slug}')">
-      <div class="date"><span class="cal-icon">📅</span> ${a.date}</div>
+  list.innerHTML = articles.map((a, i) => `
+    <div class="article-card reveal stagger-${Math.min(i + 1, 7)}" onclick="openArticle('${a.slug}')">
+      <div class="date">📅 ${a.date}</div>
       <h3>${a.title}</h3>
       <p>${a.short}</p>
     </div>
   `).join('');
+  observeRevealElements();
 }
 
-// Open article
 function openArticle(slug) {
   const article = articles.find(a => a.slug === slug);
   if (!article) return;
   document.getElementById('articleFullContent').innerHTML = `
     <div class="back-link" onclick="showPage('articles')">← На главную</div>
-    <h1>${article.title}</h1>
-    <div class="meta">📅 ${article.date}</div>
-    <div class="content">${article.content}</div>
+    <h1 class="reveal">${article.title}</h1>
+    <div class="meta reveal stagger-1">📅 ${article.date}</div>
+    <div class="content reveal stagger-2">${article.content}</div>
   `;
   showPage('article-full');
+  setTimeout(observeRevealElements, 50);
 }
 
-// Lightbox
 function closeLightbox(e) {
   if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
   document.getElementById('lightbox').classList.remove('active');
   document.body.style.overflow = '';
 }
 
-// Phone mask
+// === PHONE MASK ===
 function formatPhone(value) {
   const digits = value.replace(/\D/g, '').substring(0, 11);
   if (!digits) return '';
@@ -1323,19 +1459,31 @@ function setupPhoneMask(inputId) {
   });
 }
 
-// Navigation
+// === PAGE NAVIGATION ===
 function showPage(pageId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const target = document.getElementById('page-' + pageId);
-  if (target) target.classList.add('active');
+  if (target) {
+    target.classList.add('active');
+    // Re-trigger animation
+    target.style.animation = 'none';
+    target.offsetHeight; // force reflow
+    target.style.animation = '';
+  }
   document.querySelectorAll('.nav-link').forEach(l => {
     l.classList.toggle('active', l.dataset.page === pageId);
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(observeRevealElements, 100);
+  // Trigger counters if home page
+  if (pageId === 'home') setTimeout(animateCounters, 400);
 }
 
 function toggleMobileNav() {
-  document.getElementById('mobileNav').classList.toggle('active');
+  const nav = document.getElementById('mobileNav');
+  const burger = document.getElementById('burgerBtn');
+  nav.classList.toggle('active');
+  burger.classList.toggle('active');
 }
 
 function scrollToForm() {
@@ -1345,31 +1493,115 @@ function scrollToForm() {
   }, 100);
 }
 
-// Web3Forms submission
+// === SCROLL PROGRESS BAR ===
+function updateScrollProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('scrollProgress').style.width = progress + '%';
+}
+
+// === SCROLL TO TOP BUTTON ===
+function updateScrollTopBtn() {
+  const btn = document.getElementById('scrollTopBtn');
+  if (window.scrollY > 400) {
+    btn.classList.add('visible');
+  } else {
+    btn.classList.remove('visible');
+  }
+}
+
+// === HEADER SHADOW ON SCROLL ===
+function updateHeaderShadow() {
+  const header = document.getElementById('mainHeader');
+  if (window.scrollY > 10) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+}
+
+// === REVEAL ON SCROLL (Intersection Observer) ===
+function observeRevealElements() {
+  const elements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  elements.forEach(el => {
+    if (!el.classList.contains('visible')) {
+      observer.observe(el);
+    }
+  });
+}
+
+// === ANIMATED COUNTERS ===
+let countersAnimated = false;
+function animateCounters() {
+  if (countersAnimated) return;
+  countersAnimated = true;
+  const counters = document.querySelectorAll('.counter-value');
+  counters.forEach(counter => {
+    const target = parseInt(counter.dataset.target);
+    const suffix = counter.dataset.suffix || '';
+    const duration = 1500;
+    const startTime = performance.now();
+    
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * target);
+      counter.textContent = current + suffix;
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        counter.textContent = target + suffix;
+      }
+    }
+    requestAnimationFrame(update);
+  });
+}
+
+// === RIPPLE EFFECT ===
+function createRipple(e) {
+  const button = e.currentTarget;
+  const circle = document.createElement('span');
+  const diameter = Math.max(button.clientWidth, button.clientHeight);
+  const radius = diameter / 2;
+  const rect = button.getBoundingClientRect();
+  circle.style.width = circle.style.height = diameter + 'px';
+  circle.style.left = (e.clientX - rect.left - radius) + 'px';
+  circle.style.top = (e.clientY - rect.top - radius) + 'px';
+  circle.classList.add('ripple');
+  const existingRipple = button.querySelector('.ripple');
+  if (existingRipple) existingRipple.remove();
+  button.appendChild(circle);
+}
+
+// === WEB3FORMS ===
 async function submitWeb3Form(formId, successId, btnId) {
   const form = document.getElementById(formId);
   const successMsg = document.getElementById(successId);
   const btn = document.getElementById(btnId);
-  
   const formData = new FormData(form);
-  
   try {
     btn.disabled = true;
     btn.textContent = 'Отправка...';
-    
     const response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       body: formData
     });
-    
     const result = await response.json();
-    
     if (result.success) {
       successMsg.classList.add('active');
       form.reset();
-      setTimeout(() => {
-        successMsg.classList.remove('active');
-      }, 6000);
+      setTimeout(() => successMsg.classList.remove('active'), 6000);
     } else {
       alert('Ошибка: ' + (result.message || 'Попробуйте ещё раз'));
     }
@@ -1392,19 +1624,41 @@ function submitCallback(e) {
   submitWeb3Form('callbackFormEl', 'callbackSuccess', 'callbackBtn');
 }
 
-// Init
+// === INIT ===
 document.addEventListener('DOMContentLoaded', () => {
   renderPrices();
   renderArticles();
   setupPhoneMask('phone1');
   setupPhoneMask('phone2');
+  observeRevealElements();
 
+  // Desktop nav
   document.querySelectorAll('#desktopNav .nav-link').forEach(link => {
     link.addEventListener('click', () => {
       const page = link.dataset.page;
       if (page) showPage(page);
     });
   });
+
+  // Ripple effect
+  document.querySelectorAll('.ripple-btn').forEach(btn => {
+    btn.addEventListener('click', createRipple);
+  });
+
+  // Scroll events
+  window.addEventListener('scroll', () => {
+    updateScrollProgress();
+    updateScrollTopBtn();
+    updateHeaderShadow();
+  }, { passive: true });
+
+  // Initial calls
+  updateScrollProgress();
+  updateScrollTopBtn();
+  updateHeaderShadow();
+
+  // Animate counters on home load
+  setTimeout(animateCounters, 600);
 });
 </script>
 
